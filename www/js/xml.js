@@ -11,7 +11,7 @@ var nowcast_url =
 
 
 //crate an empty file to store data
-var createXML = fs.createWriteStream('./xml/nowcast.xml');
+var createXML = fs.createWriteStream('./../xml/nowcast.xml');
 createXML.end();
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -22,8 +22,8 @@ xmlhttp.onreadystatechange = function(){
 //readyState 4:request finish and response is ready
 //readyState 200:"OK"
 if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-	var file = fs.createWriteStream("./xml/nowcast.xml");
-	var request = http.get(url, function(response) {
+	var file = fs.createWriteStream("./../xml/nowcast.xml");
+	var request = http.get(nowcast_url, function(response) {
 		response.pipe(file);
 		});
 	}
