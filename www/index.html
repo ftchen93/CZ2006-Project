@@ -32,16 +32,16 @@ IF using Sass (run gulp sass first), then remove the CSS include above
 </head>
 
 <body ng-app="starter">
-<ion-pane  id="wrapper">
+<ion-pane id="wrapper">
 
 <ion-header-bar class="bar-stable">
 <h1 class="title">Weather</h1>
 <button ng-click="showSettings()" class="button button-icon"><i class="icon ion-gear-a"></i></button>
 </ion-header-bar>
 
-<ion-content  class="has-header">
+<ion-content class="has-header">
 <div class="list">
-<a class"item item-icon-left">
+<a class"item="" item-icon-left"="">
 <h3>
 <i class="icon ion-android-locate"></i> Area</h3>
 
@@ -52,7 +52,8 @@ IF using Sass (run gulp sass first), then remove the CSS include above
 Area
 </div>
 
-<select id='area' onchange="xhttp.onreadystatechange()">
+<select id="area_option" onchange="xhttp.onreadystatechange()">
+<option selected>Please selected area</option>
 <option>ANG MO KIO</option>
 <option>BEDOK</option>
 <option>BISHAN</option>
@@ -76,16 +77,16 @@ Area
 <option>MACRITCHIE RESERVOIR</option>
 <option>MARINE PARADE</option>
 <option>PANDAN</option>
-<option>PASIR PANJANG</option></option>
-<option>PASIR RIS</option></option>
-<option>PUNGGOL</option></option>
-<option>PEIRCE RESERVOIR</option></option>
-<option>PULAU TEKONG</option></option>
-<option>PULAU UBIN</option></option>
-<option>JURONG ISLAND</option></option>
-<option>QUEENSTOWN</option></option>
-<option>SELETAR</option></option>
-<option>SEMBAWANG</option></option>
+<option>PASIR PANJANG</option>
+<option>PASIR RIS</option>
+<option>PUNGGOL</option>
+<option>PEIRCE RESERVOIR</option>
+<option>PULAU TEKONG</option>
+<option>PULAU UBIN</option>
+<option>JURONG ISLAND</option>
+<option>QUEENSTOWN</option>
+<option>SELETAR</option>
+<option>SEMBAWANG</option>
 <option>SENTOSA</option>
 <option>SERANGOON</option>
 <option>SIMEI</option>
@@ -104,13 +105,13 @@ Area
 </div>
 
 </a>
-</br>
+<br>
 
-<a class"item item-icon-left">
+<a class"item="" item-icon-left"="">
 <h3><i class="icon ion-ios-partlysunny-outline"></i> Weather</h3>
-  <div id="forecast">
-  -
-  </div>
+  <div id="forecast">-</div>
+  <div id="lat">-</div>
+  <div id="lon">-</div>
 </a>
 
 </div>
@@ -122,30 +123,39 @@ Area
 
 
 <script type="text/javascript">
+var api_addr="http://www.nea.gov.sg/api/WebAPI/?dataset=nowcast&keyref=781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
     myFunction(xhttp);
     }
 }
-xhttp.open("GET", "./../xml/nowcast.xml", true);
+xhttp.open("GET", api_addr, true);
 xhttp.send();
 
 function myFunction(xml) {
     var xmlDoc = xml.responseXML;
-     txt="";
+     area_name="";
+     forecast="";
+     var lat;
+     var lon;
 
-    
-   
     x=xmlDoc.getElementsByTagName("area");
-    y=document.getElementById("area").value;
+    y=document.getElementById("area_option").value;
     for(i=0;i<x.length;i++){
-        if(x[i].getAttribute("name")==y){
-                  txt = x[i].getAttribute("name" );
+        if(x[i].getAttribute("name") == y){
+                  area_name = x[i].getAttribute("name");
+                  forecast = x[i].getAttribute("forecast");
+                  lat = x[i].getAttribute("lat");
+                  lon = x[i].getAttribute("lon");
         }
 
     }
-    document.getElementById("forecast").innerHTML=txt;
+
+   
+    document.getElementById("forecast").innerHTML=forecast;
+    document.getElementById("lat").innerHTML=lat;
+    document.getElementById("lon").innerHTML=lon;
 }
 </script>
 </body>
