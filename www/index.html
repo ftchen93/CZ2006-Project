@@ -51,10 +51,53 @@ IF using Sass (run gulp sass first), then remove the CSS include above
 <div class="input-label">
 Area
 </div>
+
 <select id='area' onchange="xhttp.onreadystatechange()">
+<option>ANG MO KIO</option>
 <option>BEDOK</option>
-<option selected>BISHAN</option>
+<option>BISHAN</option>
 <option>BUKIT BATOK</option>
+<option>BUKIT PANJANG</option>
+<option>BUKIT TIMAH</option>
+<option>CHANGI</option>
+<option>CHOA CHU KANG</option>
+<option>CITY</option>
+<option>CLEMENTI</option>
+<option>CHAI CHEE</option>
+<option>HOLLAND VILLAGE</option>
+<option>HOUGANG</option>
+<option>JURONG INDUSTRIAL ESTATE</option>
+<option>JURONG EAST/WEST</option>
+<option>KALLANG</option>
+<option>KATONG</option>
+<option>KRANJI</option>
+<option>LIM CHU KANG</option>
+<option>MACPHERSON</option>
+<option>MACRITCHIE RESERVOIR</option>
+<option>MARINE PARADE</option>
+<option>PANDAN</option>
+<option>PASIR PANJANG</option></option>
+<option>PASIR RIS</option></option>
+<option>PUNGGOL</option></option>
+<option>PEIRCE RESERVOIR</option></option>
+<option>PULAU TEKONG</option></option>
+<option>PULAU UBIN</option></option>
+<option>JURONG ISLAND</option></option>
+<option>QUEENSTOWN</option></option>
+<option>SELETAR</option></option>
+<option>SEMBAWANG</option></option>
+<option>SENTOSA</option>
+<option>SERANGOON</option>
+<option>SIMEI</option>
+<option>SOUTHERN ISLAND</option>
+<option>TAMPINES</option>
+<option>TOA PAYOH</option>
+<option>TUAS</option>
+<option>TELOK BLANGAH</option>
+<option>UPPER BUKIT TIMAH</option>
+<option>WEST COAST</option>
+<option>WOODLANDS</option>
+<option>YISHUN</option>
 </select>
 </label>
 
@@ -98,7 +141,7 @@ function myFunction(xml) {
     y=document.getElementById("area").value;
     for(i=0;i<x.length;i++){
         if(x[i].getAttribute("name")==y){
-                  txt = x[i].getAttribute("name" )
+                  txt = x[i].getAttribute("name" );
         }
 
     }

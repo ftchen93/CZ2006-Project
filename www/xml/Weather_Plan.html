@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)http://localhost:8100/?restart=621132 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+<meta charset="utf-8">
+    <script>
+      // Injected Ionic CLI Console Logger
+      (function() {
+        var methods = "assert clear count debug dir dirxml error exception group groupCollapsed groupEnd info log markTimeline profile profileEnd table time timeEnd timeStamp trace warn".split(" ");
+        var console = (window.console=window.console || {});
+        var logCount = 0;
+        window.onerror = function(msg, url, line) {
+          if(msg && url) console.error(msg, url, (line ? "Line: " + line : ""));
+        };
+        function sendConsoleLog(method, args) {
+          try {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/__ionic-cli/console", true);
+            xhr.send(JSON.stringify({ index: logCount, method: method, ts: Date.now(), args: args }));
+            logCount++;
+          } catch(e){}
+        }
+        for(var x=0; x<methods.length; x++) {
+          (function(m){
+            var orgConsole = console[m];
+            console[m] = function() {
+              try {
+                sendConsoleLog(m, Array.prototype.slice.call(arguments));
+                if(orgConsole) orgConsole.apply(console, arguments);
+              } catch(e){}
+            };
+          })(methods[x]);
+        }
+      }());
+    </script>
+    <script>
+      // Injected Ionic Go To URL Live Reload Plugin
+      window.LiveReloadPlugin_IonicGoToUrl = (function() {
+        var GOTO_KEY = "__ionic_goto_url__";
+        var HISTORY_GO_KEY = "__ionic_history_go__";
+        var GoToUrlPlugin = function(window, host) {
+          this.window = window;
+          this.host = host;
+        }
+        GoToUrlPlugin.identifier = "__ionic_goto_url__";
+        GoToUrlPlugin.version = "1.0";
+        GoToUrlPlugin.prototype.reload = function(path) {
+          try {
+            if(path) {
+              if(path.indexOf(GOTO_KEY) === 0) {
+                this.window.document.location = path.replace(GOTO_KEY, "");
+                return true;
+              }
+              if(path.indexOf(HISTORY_GO_KEY) === 0) {
+                this.window.document.history.go( parseInt(path.replace(HISTORY_GO_KEY, ""), 10));
+                return true;
+              }
+            }
+          } catch(e) {
+            console.log(e);
+          }
+          return false;
+        };
+        return GoToUrlPlugin;
+      })();
+    </script>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<title>Weather|Plan</title>
+
+<link rel="stylesheet" href="./Weather_Plan_files/ionic.css">
+<link rel="stylesheet" href="./Weather_Plan_files/style.css">
+
+<!-- 
+IF using Sass (run gulp sass first), then remove the CSS include above
+<link href="css/ionic.app.css" rel="stylesheet">
+-->
+
+<!-- ionic/angularjs js -->
+<script src="./Weather_Plan_files/ionic.bundle.js"></script>
+<script src="./Weather_Plan_files/angular.min.js"></script>
+<script src="./Weather_Plan_files/require.js"></script>
+
+<!-- cordova script (this will be a 404 during development) -->
+<script src="./Weather_Plan_files/cordova.js"></script>
+
+<!-- your app's js -->
+<script src="./Weather_Plan_files/app.js"></script>
+
+<!-- xml operation done by this file -->
+<!--  <script src="js/xml2.js"></script>-->
+<!-- <script src="js/xml.js"></script>-->
+
+
+<style type="text/css"></style></head>
+
+<body ng-app="starter" class="grade-a platform-browser platform-win32 platform-ready">
+<ion-pane id="wrapper" class="pane">
+
+<ion-header-bar class="bar-stable bar bar-header disable-user-behavior">
+<h1 class="title" style="left: 56px; right: 56px;">Weather</h1>
+<button ng-click="showSettings()" class="button button-icon"><i class="icon ion-gear-a"></i></button>
+</ion-header-bar>
+
+<ion-content class="scroll-content ionic-scroll  has-header"><div class="scroll" style="transform: translate3d(0px, -693px, 0px) scale(1);">
+<div class="list">
+<a class"item="" item-icon-left"="">
+<h3>
+<i class="icon ion-android-locate"></i> Area</h3>
+
+<div class="list">
+
+<label class="item item-input item-select">
+<div class="input-label">
+Area
+</div>
+<select id="area" onchange="xhttp.onreadystatechange()">
+<option value="BEDOK">BEDOK</option>
+<option selected="" value="BISHAN">BISHAN</option>
+<option value="BUKIT BATOK">BUKIT BATOK</option>
+</select>
+</label>
+
+</div>
+
+</a>
+<br>
+
+<a class"item="" item-icon-left"="" class="">
+<h3><i class="icon ion-ios-partlysunny-outline"></i> Weather</h3>
+  <div id="forecast">ANG MO KIO<br>BEDOK<br>BISHAN<br>BUKIT BATOK<br>BUKIT PANJANG<br>BUKIT TIMAH<br>CHANGI<br>CHOA CHU KANG<br>CITY<br>CLEMENTI<br>CHAI CHEE<br>HOLLAND VILLAGE<br>HOUGANG<br>JURONG INDUSTRIAL ESTATE<br>JURONG EAST/WEST<br>KALLANG<br>KATONG<br>KRANJI<br>LIM CHU KANG<br>MACPHERSON<br>MACRITCHIE RESERVOIR<br>MARINE PARADE<br>PANDAN<br>PASIR PANJANG<br>PASIR RIS<br>PUNGGOL<br>PEIRCE RESERVOIR<br>PULAU TEKONG<br>PULAU UBIN<br>JURONG ISLAND<br>QUEENSTOWN<br>SELETAR<br>SEMBAWANG<br>SENTOSA<br>SERANGOON<br>SIMEI<br>SOUTHERN ISLAND<br>TAMPINES<br>TOA PAYOH<br>TUAS<br>TELOK BLANGAH<br>UPPER BUKIT TIMAH<br>WEST COAST<br>WOODLANDS<br>YISHUN<br></div>
+</a>
+
+</div>
+</div><div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out" style="transform: translate3d(0px, 235px, 0px) scaleY(1); height: 93px; transform-origin: center bottom 0px;"></div></div></ion-content>
+
+
+</ion-pane>
+
+
+
+<script type="text/javascript">
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+    myFunction(xhttp);
+    }
+}
+xhttp.open("GET", "./../xml/nowcast.xml", true);
+xhttp.send();
+
+function myFunction(xml) {
+    var xmlDoc = xml.responseXML;
+     txt="";
+
+    
+   
+    x=xmlDoc.getElementsByTagName("area");
+    y=document.getElementById("area").value;
+    for(i=0;i<x.length;i++){
+        //if(x[i].getAttribute("name")==y){
+                  txt += x[i].getAttribute("name" )+"<br>";
+        //}
+
+    }
+    document.getElementById("forecast").innerHTML=txt;
+}
+</script>
+
+<script>//<![CDATA[
+document.write('<script src="//' + (location.hostname || 'localhost') + ':35729/livereload.js?snipver=1"><\/script>')
+//]]></script><script src="./Weather_Plan_files/livereload.js"></script>
+
+
+
+
+</body></html>
