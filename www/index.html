@@ -15,7 +15,7 @@ IF using Sass (run gulp sass first), then remove the CSS include above
 
 <!-- ionic/angularjs js -->
 <script src="lib/ionic/js/ionic.bundle.js"></script>
-<script src="./node_modules/angular/angular.min.js"></script>
+
 <script src="lib/require.js"></script>
 
 <!-- cordova script (this will be a 404 during development) -->
@@ -40,18 +40,17 @@ IF using Sass (run gulp sass first), then remove the CSS include above
 </ion-header-bar>
 
 <ion-content class="has-header">
-<div class="list">
+
+
+
+
+
+
 <a class"item="" item-icon-left"="">
-<h3>
-<i class="icon ion-android-locate"></i> Area</h3>
-
+<h3><i class="icon ion-android-locate"></i> Area</h3>
 <div class="list">
-
 <label class="item item-input item-select">
-<div class="input-label">
-Area
-</div>
-
+<div class="input-label">Area</div>
 <select id="area_option" onchange="xhttp.onreadystatechange()">
 <option selected>Please selected area</option>
 <option>ANG MO KIO</option>
@@ -101,7 +100,6 @@ Area
 <option>YISHUN</option>
 </select>
 </label>
-
 </div>
 
 </a>
@@ -109,15 +107,17 @@ Area
 
 <a class"item="" item-icon-left"="">
 <h3><i class="icon ion-ios-partlysunny-outline"></i> Weather</h3>
-  <div id="forecast">-</div>
+  <div id="weather_forecast">-</div>
   <div id="lat">-</div>
   <div id="lon">-</div>
-</a>
+  <h3>Temperature</h3>
+  Highest<div id="temp_high">-</div>
+  Lowest<div id="temp_low">-</div>
+  
 
+</a>
 </div>
 </ion-content>
-
-
 </ion-pane>
 
 
@@ -136,7 +136,7 @@ xhttp.send();
 function myFunction(xml) {
     var xmlDoc = xml.responseXML;
      area_name="";
-     forecast="";
+     weather_forecast="";
      var lat;
      var lon;
 
@@ -145,19 +145,42 @@ function myFunction(xml) {
     for(i=0;i<x.length;i++){
         if(x[i].getAttribute("name") == y){
                   area_name = x[i].getAttribute("name");
-                  forecast = x[i].getAttribute("forecast");
+                  weather_forecast = x[i].getAttribute("forecast");
                   lat = x[i].getAttribute("lat");
                   lon = x[i].getAttribute("lon");
         }
-
     }
-
-   
-    document.getElementById("forecast").innerHTML=forecast;
+    document.getElementById("weather_forecast").innerHTML=weather_forecast;
     document.getElementById("lat").innerHTML=lat;
     document.getElementById("lon").innerHTML=lon;
 }
 </script>
+
+<script>
+
+var api_12hour="http://www.nea.gov.sg/api/WebAPI/?dataset=12hrs_forecast&keyref=781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
+var xhttp2 = new XMLHttpRequest();
+xhttp2.onreadystatechange = function() {
+    if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+    myFunction2(xhttp2);
+    }
+}
+xhttp2.open("GET", api_12hour, true);
+xhttp2.send();
+
+function myFunction2(xml) {
+    var xmlDoc = xml.responseXML;
+    var temp_high;
+    var temp_low;
+
+    var z=xmlDoc.getElementsByTagName("temperature")[0];
+    var y1=z.getAttribute("high");
+    var y2=z.getAttribute("low");
+    document.getElementById("temp_high").innerHTML=y1;
+    document.getElementById("temp_low").innerHTML=y2;
+}
+</script>
+
 </body>
 
 
