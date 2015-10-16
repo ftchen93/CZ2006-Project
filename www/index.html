@@ -1,187 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-<title>Weather|Plan</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
 
-<link rel="stylesheet" href="lib/ionic/css/ionic.css">
-<link rel="stylesheet" href="css/style.css">
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
-<!-- 
-IF using Sass (run gulp sass first), then remove the CSS include above
-<link href="css/ionic.app.css" rel="stylesheet">
--->
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
 
-<!-- ionic/angularjs js -->
-<script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-<script src="lib/require.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
 
-<!-- cordova script (this will be a 404 during development) -->
-<script src="cordova.js"></script>
-
-<!-- your app's js -->
-<script src="js/app.js"></script>
-
-<!-- xml operation done by this file -->
-<!--  <script src="js/xml2.js"></script>-->
-<!-- <script src="js/xml.js"></script>-->
-
-
-</head>
-
-<body ng-app="starter">
-<ion-pane id="wrapper">
-
-<ion-header-bar class="bar-stable">
-<h1 class="title">Weather</h1>
-<button ng-click="showSettings()" class="button button-icon"><i class="icon ion-gear-a"></i></button>
-</ion-header-bar>
-
-<ion-content class="has-header">
-
-
-
-
-
-
-<a class"item="" item-icon-left"="">
-<h3><i class="icon ion-android-locate"></i> Area</h3>
-<div class="list">
-<label class="item item-input item-select">
-<div class="input-label">Area</div>
-<select id="area_option" onchange="xhttp.onreadystatechange()">
-<option selected>Please selected area</option>
-<option>ANG MO KIO</option>
-<option>BEDOK</option>
-<option>BISHAN</option>
-<option>BUKIT BATOK</option>
-<option>BUKIT PANJANG</option>
-<option>BUKIT TIMAH</option>
-<option>CHANGI</option>
-<option>CHOA CHU KANG</option>
-<option>CITY</option>
-<option>CLEMENTI</option>
-<option>CHAI CHEE</option>
-<option>HOLLAND VILLAGE</option>
-<option>HOUGANG</option>
-<option>JURONG INDUSTRIAL ESTATE</option>
-<option>JURONG EAST/WEST</option>
-<option>KALLANG</option>
-<option>KATONG</option>
-<option>KRANJI</option>
-<option>LIM CHU KANG</option>
-<option>MACPHERSON</option>
-<option>MACRITCHIE RESERVOIR</option>
-<option>MARINE PARADE</option>
-<option>PANDAN</option>
-<option>PASIR PANJANG</option>
-<option>PASIR RIS</option>
-<option>PUNGGOL</option>
-<option>PEIRCE RESERVOIR</option>
-<option>PULAU TEKONG</option>
-<option>PULAU UBIN</option>
-<option>JURONG ISLAND</option>
-<option>QUEENSTOWN</option>
-<option>SELETAR</option>
-<option>SEMBAWANG</option>
-<option>SENTOSA</option>
-<option>SERANGOON</option>
-<option>SIMEI</option>
-<option>SOUTHERN ISLAND</option>
-<option>TAMPINES</option>
-<option>TOA PAYOH</option>
-<option>TUAS</option>
-<option>TELOK BLANGAH</option>
-<option>UPPER BUKIT TIMAH</option>
-<option>WEST COAST</option>
-<option>WOODLANDS</option>
-<option>YISHUN</option>
-</select>
-</label>
-</div>
-
-</a>
-<br>
-
-<a class"item="" item-icon-left"="">
-<h3><i class="icon ion-ios-partlysunny-outline"></i> Weather</h3>
-  <div id="weather_forecast">-</div>
-  <div id="lat">-</div>
-  <div id="lon">-</div>
-  <h3>Temperature</h3>
-  Highest<div id="temp_high">-</div>
-  Lowest<div id="temp_low">-</div>
-  
-
-</a>
-</div>
-</ion-content>
-</ion-pane>
-
-
-
-<script type="text/javascript">
-var api_addr="http://www.nea.gov.sg/api/WebAPI/?dataset=nowcast&keyref=781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-    myFunction(xhttp);
-    }
-}
-xhttp.open("GET", api_addr, true);
-xhttp.send();
-
-function myFunction(xml) {
-    var xmlDoc = xml.responseXML;
-     area_name="";
-     weather_forecast="";
-     var lat;
-     var lon;
-
-    x=xmlDoc.getElementsByTagName("area");
-    y=document.getElementById("area_option").value;
-    for(i=0;i<x.length;i++){
-        if(x[i].getAttribute("name") == y){
-                  area_name = x[i].getAttribute("name");
-                  weather_forecast = x[i].getAttribute("forecast");
-                  lat = x[i].getAttribute("lat");
-                  lon = x[i].getAttribute("lon");
-        }
-    }
-    document.getElementById("weather_forecast").innerHTML=weather_forecast;
-    document.getElementById("lat").innerHTML=lat;
-    document.getElementById("lon").innerHTML=lon;
-}
-</script>
-
-<script>
-
-var api_12hour="http://www.nea.gov.sg/api/WebAPI/?dataset=12hrs_forecast&keyref=781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
-var xhttp2 = new XMLHttpRequest();
-xhttp2.onreadystatechange = function() {
-    if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-    myFunction2(xhttp2);
-    }
-}
-xhttp2.open("GET", api_12hour, true);
-xhttp2.send();
-
-function myFunction2(xml) {
-    var xmlDoc = xml.responseXML;
-    var temp_high;
-    var temp_low;
-
-    var z=xmlDoc.getElementsByTagName("temperature")[0];
-    var y1=z.getAttribute("high");
-    var y2=z.getAttribute("low");
-    document.getElementById("temp_high").innerHTML=y1;
-    document.getElementById("temp_low").innerHTML=y2;
-}
-</script>
-
-</body>
-
-
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-app="starter">
+    <!--
+      The nav bar that will be updated as we navigate between views.
+    -->
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
+  </body>
 </html>
