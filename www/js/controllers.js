@@ -26,4 +26,11 @@ angular.module('starter.controllers', [])
     enableFriends: true
   };
 })
-.controller('WeatherCtrl', function($scope) {})
+
+  .controller('WeatherCtrl', function ($scope) {
+
+  })
+
+  .controller('NowcastCtrl', function ($scope) {
+
+  });

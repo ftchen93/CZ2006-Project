@@ -70,9 +70,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'WeatherCtrl'
         }
       }
-    }) 
+    })
 
-  .state('tab/weather/nowcast', {
+    .state('tab.weatherNowcast', {
       url: '/weather/nowcast',
       views: {
         'tab-weather': {
@@ -80,7 +80,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'NowcastCtrl'
         }
       }
-    }) 
+    })
 
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
@@ -106,3 +106,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $urlRouterProvider.otherwise('/tab/home');
 
 });
+
