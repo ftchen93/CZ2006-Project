@@ -78,6 +78,11 @@ angular.module('starter.controllers', [])
   };
 })
 
+.controller('WeatherCtrl', function ($scope) {})
+
+.controller('NowcastCtrl', function ($scope) { })
+
+.controller('PlanCtrl', function($scope) {})
 
 .controller('HistoryViewCtrl', function($scope, $rootScope) {
   $scope.clearViewHistory = function() {
@@ -92,13 +97,4 @@ angular.module('starter.controllers', [])
   } 
 });
 
-  .controller('WeatherCtrl', function ($scope) {
-
-  })
-
-  .controller('NowcastCtrl', function ($scope) {
-
-  })
-
-  .controller('PlanCtrl', function($scope) {});
 
