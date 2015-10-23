@@ -5,7 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' ])
+
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,6 +23,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 })
+  .directive('hideTabs', function($rootScope) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        scope.$watch(attributes.hideTabs, function(value){
+          $rootScope.hideTabs = value;
+        });
+
+        scope.$on('$ionicView.beforeLeave', function() {
+          $rootScope.hideTabs = false;
+        });
+      }
+    };
+  })
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -57,7 +72,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'tab-home': {
           templateUrl: 'templates/tab-home.html',
-          controller: 'ChatsCtrl'
+          controller: 'HomeCtrl'
         }
       }
     })
@@ -70,9 +85,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'WeatherCtrl'
         }
       }
-    }) 
+    })
 
-  .state('tab/weather/nowcast', {
+    .state('tab.weatherNowcast', {
       url: '/weather/nowcast',
       views: {
         'tab-weather': {
@@ -80,7 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'NowcastCtrl'
         }
       }
-    }) 
+    })
 
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
@@ -93,16 +108,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
   .state('tab.settings', {
-    url: '/settings',
-    views: {
-      'tab-settings': {
-        templateUrl: 'templates/tab-settings.html',
-        controller: 'AccountCtrl'
+        url: '/settings',
+        views: {
+          'tab-settings': {
+            templateUrl: 'templates/tab-settings.html',
+            controller: 'AccountCtrl'
+          }
+        }
+  })
+    .state('tab.plan', {
+      url: '/plan',
+      views: {
+        'tab-settings': {
+          templateUrl: 'templates/tab-plan.html',
+          controller: 'PlanCtrl'
+        }
       }
-    }
-  });
+    })
+
+
+  ;
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
 
+
 });
+
