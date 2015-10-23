@@ -78,8 +78,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-<<<<<<< HEAD
-.controller('NowcastCtrl', function($scope) {})
+
 .controller('HistoryViewCtrl', function($scope, $rootScope) {
   $scope.clearViewHistory = function() {
     console.log('clearViewHistory');
@@ -92,7 +91,7 @@ angular.module('starter.controllers', [])
     };
   } 
 });
-=======
+
   .controller('WeatherCtrl', function ($scope) {
 
   })
@@ -101,12 +100,5 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('PlanCtrl', function($scope) {})
+  .controller('PlanCtrl', function($scope) {});
 
-
-
-
-
-
-;
->>>>>>> 76114caa8d0a6ef589c58224b90a9ca2023e70fe
