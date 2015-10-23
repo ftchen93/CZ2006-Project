@@ -48,3 +48,25 @@ angular.module('starter.services', [])
     }
   };
 });
+
+
+angular.module('starter.services')
+
+  .factory('Weather', function () {
+
+    return {}
+  });
+
+
+angular.module('Settings', function () {
+  var Celsius = true;
+
+  return {
+    setDisplay: function (value) {
+      Celsius = value;
+    },
+    getDisplay: function () {
+      return Celsius;
+    }
+  }
+});
