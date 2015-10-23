@@ -1,5 +1,35 @@
 angular.module('starter.controllers', [])
+  .controller('HomeCtrl' , function ($scope){
+    $scope.picture = {
+      "artworks": [
+        {
+          "img_about_us": "img/aboutus.jpg",
+          "href": "tab.about",
+          "title": "about us"
+        },
+        {
+          "img_bg": "img/background.jpg"
+        },
+        {
+          "img_plan_activity": "img/planactivity.jpg",
+          "href": "tab.about",
+          "title": "Plan Activity"
+        },
+        {
+          "img_settings": "img/settings.jpg",
+          "href": "tab.settings",
+          "title": "Settings"
+        },
+        {
+          "img_weather_now": "img/weathernow.jpg",
+          "href": "tab.weather",
+          "title": "Weather Now"
+        }
 
+
+      ]
+    };
+  })
 .controller('DashCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -33,4 +63,13 @@ angular.module('starter.controllers', [])
 
   .controller('NowcastCtrl', function ($scope) {
 
-  });
+  })
+
+  .controller('PlanCtrl', function($scope) {})
+
+
+
+
+
+
+;

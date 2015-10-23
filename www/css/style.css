@@ -1,1 +1,11 @@
 /* Empty. Add your own CSS if you like */
+.wrapper{
+  width: 484px;
+  margin: 0 auto;
+}
+.wrapper ul{width:100%;
+}
+
+.wrapper ul li{width:50%; float:left; margin-top:-4.5px;}
+.wrapper ul li img{width:100%;}
+
