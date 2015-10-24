@@ -22,10 +22,42 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
+  var fahrenheit;
+
+    $scope.getFahrenheit = function($scope) {
+      fahrenheit = celsius * 33.8;
+    }
+
   $scope.settings = {
-    enableFriends: true
+    notifications:false
   };
 })
+
+.controller('PopOver', function($scope, $ionicPopover) {
+  var myPopup;
+
+  $scope.data = [{
+    name: 'Specify your location'
+  }];
+
+  $ionicPopover.fromTemplateUrl('popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+
+  $scope.showPopover = function($event, index)
+  {
+    $scope.index = index;
+    $scope.popover.show($event);
+  }
+
+  $scope.closeInController = function(selectedItem) {
+    $scope.popover.hide();
+    $scope.data[$scope.index].selected = selectedItem;
+  };
+  })
+
 
   .controller('WeatherCtrl', function ($scope) {
 
@@ -33,4 +65,4 @@ angular.module('starter.controllers', [])
 
   .controller('NowcastCtrl', function ($scope) {
 
-  });
+  })

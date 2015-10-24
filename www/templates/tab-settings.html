@@ -1,9 +1,31 @@
 <ion-view view-title="Settings">
   <ion-content>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+
+      <div class="item item-divider">
+        Metrics
+      </div>
+      <ion-toggle  ng-controller = "AccountCtrl" ng-model="settings.celsius">
+        Celsius/Fahrenheit
+      </ion-toggle>
+
+      <div class="item item-divider">
+        Set Location
+      </div>
+      <div class="list item-icon-left list-area" ng-controller="PopOver">
+          <a ng-repeat="item in data" class="item white {{item.selected}}" ng-click="showPopover($event, $index)">
+            <span ng-bind="item.name"></span>
+            <span class="item-note" ng-bind="item.area"></span>
+          </a>
+      </div>
+
+      <div class="item item-divider">
+        Notifications
+      </div>
+      <ion-toggle ng-model="settings.notifications">
+        Push Notifications
+      </ion-toggle>
+
+      </ion-list>
   </ion-content>
 </ion-view>
