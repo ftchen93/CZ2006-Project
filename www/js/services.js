@@ -47,10 +47,7 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
-
-
-angular.module('starter.services')
+})
 
 .factory('WeatherService', function ($http) {
     var key ="781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
