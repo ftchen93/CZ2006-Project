@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' ])
 
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,6 +21,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' ])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    // Hide the tabs since we have a navigation page
+    $rootScope.hideTabs = true;
+
   });
 })
   .directive('hideTabs', function($rootScope) {
@@ -46,7 +50,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' ])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+
   // setup an abstract state for the tabs directive
+
     .state('tab', {
     url: '/tab',
     abstract: true,
