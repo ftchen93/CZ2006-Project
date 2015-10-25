@@ -22,17 +22,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' ])
       StatusBar.styleLightContent();
     }
   });
-})
-  .directive('hideTabs', function($rootScope) {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attributes) {
-        scope.$watch(attributes.hideTabs, function(value){
-          $rootScope.hideTabs = value;
-        });
 
-        scope.$on('$ionicView.beforeLeave', function() {
-          $rootScope.hideTabs = false;
+  $ionicPlatform.registerBackButtonAction(function (event) {
+    //if($ionicHistory.currentStateName() == "tab.home"){
+      ionic.Platform.exitApp();
+      // or do nothing
+    //}
+    //else {
+      //$ionicHistory.goBack();
+    //}
+  }, 101);
+
+})
+.directive('hideTabs', function($rootScope) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attributes) {
+      scope.$watch(attributes.hideTabs, function(value){
+        $rootScope.hideTabs = value;
+        });
+      scope.$on('$ionicView.beforeLeave', function() {
+        $rootScope.hideTabs = false;
         });
       }
     };

@@ -52,9 +52,61 @@ angular.module('starter.services', [])
 
 angular.module('starter.services')
 
-  .factory('Weather', function () {
+.factory('WeatherService', function ($http) {
+    var key ="781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
+    var nowcast = [];
+    var halfday = [];
+    var threeday = [];
+    var psi = [];
+    var rain = [];
+    return {
+      
+      getNowcast:function(){
+        var nowcastapi="http://www.nea.gov.sg/api/WebAPI?dataset=nowcast&keyref=" + key;
+          return $http.get(nowcastapi)
+          .then(function(response){
+            nowcast = response.data;
+              return nowcast;
+        })
+      },
 
-    return {}
+      getHalfday:function(){
+        var halfdayapi="http://www.nea.gov.sg/api/WebAPI?dataset=12hrs_forecast&keyref=" + key;
+          return $http.get(halfdayapi)
+          .then(function(response){
+            halfday = response.data;
+              return halfday ;
+        })
+      },
+
+      getThreeday:function(){
+        var threedayapi="http://www.nea.gov.sg/api/WebAPI?dataset=3days_outlook&keyref=" + key;
+          return $http.get(threedayapi)
+          .then(function(response){
+            threeday = response.data;
+              return threeday ;
+        })
+      },
+
+      getPsi:function(){
+        var psiapi="http://www.nea.gov.sg/api/WebAPI?dataset=psi_update&keyref=" + key;
+          return $http.get(psiapi)
+          .then(function(response){
+            psi = response.data;
+              return psi ;
+        })
+      },      
+
+      getRain:function(){
+        var rainapi="http://www.nea.gov.sg/api/WebAPI?dataset=heavy_rain_warning&keyref=" + key;
+          return $http.get(rainapi)
+          .then(function(response){
+            rain = response.data;
+              return rain ;
+        })
+      } 
+
+    }
   });
 
 
@@ -69,4 +121,7 @@ angular.module('Settings', function () {
       return Celsius;
     }
   }
-});
+})
+
+
+;

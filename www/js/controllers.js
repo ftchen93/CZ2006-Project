@@ -59,7 +59,15 @@ angular.module('starter.controllers', [])
     enableFriends: false
   };
 })
-.controller('WeatherCtrl', function($scope, $ionicSlideBoxDelegate) {
+.controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
+  
+  WeatherService.getNowcast().then(function(response){
+    $scope.nowcast = response;
+  })
+  WeatherService.getHalfday().then(function(response2){
+    $scope.halfday = response2;
+  })
+
 
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
@@ -76,25 +84,16 @@ angular.module('starter.controllers', [])
   $scope.navSlide= function(index) {
     $ionicSlideBoxDelegate.slide(index,500);
   };
+
+
 })
 
-.controller('WeatherCtrl', function ($scope) {})
+.controller('NowcastCtrl', function ($scope) {
 
-.controller('NowcastCtrl', function ($scope) { })
+ })
 
 .controller('PlanCtrl', function($scope) {})
 
-.controller('HistoryViewCtrl', function($scope, $rootScope) {
-  $scope.clearViewHistory = function() {
-    console.log('clearViewHistory');
-      $rootScope.$viewHistory = {
-      histories: { root: { historyId: 'root', parentHistoryId: null, stack: [], cursor: -1 } },
-      backView: null,
-      forwardView: null,
-      currentView: null,
-      disabledRegistrableTagNames: []
-    };
-  } 
-});
+;
 
 
