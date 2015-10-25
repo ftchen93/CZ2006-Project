@@ -46,12 +46,12 @@ angular.module('starter.controllers', [])
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
- 
+
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
-  
+
 })
 
 .controller('SettingsCtrl', function($scope) {
@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
   };
 })
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
-  
+
   WeatherService.getNowcast().then(function(response){
     $scope.nowcast = response;
   })
@@ -94,6 +94,17 @@ angular.module('starter.controllers', [])
 
 .controller('PlanCtrl', function($scope) {})
 
-;
+.controller('HistoryViewCtrl', function($scope, $rootScope) {
+  $scope.clearViewHistory = function() {
+    console.log('clearViewHistory');
+      $rootScope.$viewHistory = {
+      histories: { root: { historyId: 'root', parentHistoryId: null, stack: [], cursor: -1 } },
+      backView: null,
+      forwardView: null,
+      currentView: null,
+      disabledRegistrableTagNames: []
+    };
+  }
+});
 
 

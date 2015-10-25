@@ -57,7 +57,7 @@ angular.module('starter.services', [])
     var psi = [];
     var rain = [];
     return {
-      
+
       getNowcast:function(){
         var nowcastapi="http://www.nea.gov.sg/api/WebAPI?dataset=nowcast&keyref=" + key;
           return $http.get(nowcastapi)
@@ -92,7 +92,7 @@ angular.module('starter.services', [])
             psi = response.data;
               return psi ;
         })
-      },      
+      },
 
       getRain:function(){
         var rainapi="http://www.nea.gov.sg/api/WebAPI?dataset=heavy_rain_warning&keyref=" + key;
@@ -101,24 +101,34 @@ angular.module('starter.services', [])
             rain = response.data;
               return rain ;
         })
-      } 
+      }
 
     }
   });
 
 
-angular.module('Settings', function () {
-  var Celsius = true;
+angular.module('starter.services')
+  .factory('Location',function(){
 
-  return {
-    setDisplay: function (value) {
-      Celsius = value;
-    },
-    getDisplay: function () {
-      return Celsius;
+    var ShortLocation = 'North';
+    var LongLocation = 'QUEENSTOWN';
+    return{
+      ShortLocation : ShortLocation,
+      LongLocation : LongLocation
     }
-  }
-})
+  });
 
+angular.module('starter.services')
+  .factory ( 'Settings',
+  function () {
+    var Celsius = true;
 
-;
+    return {
+      setDisplay: function (value) {
+        Celsius = value;
+      },
+      getDisplay: function () {
+        return Celsius;
+      }
+    }
+  });
