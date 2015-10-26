@@ -62,27 +62,31 @@ angular.module('starter.controllers', [])
 })
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
 
+  $scope.weather = WeatherService;
+
+
   WeatherService.getNowcast().then(function(response){
     $scope.nowcast = response;
     var areaList=[];
 
-    $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area ;
+    $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area;
 
     for(var i=0; i < $scope.areaList.length; i++){
       areaList.push({
         area:$scope.areaList[i]._name,
         forecast:$scope.areaList[i]._forecast,
         zone:$scope.areaList[i]._zone
-        });
-      }
+      });
+    }
     $scope.areaname = areaList;
 
-  })
+  });
+  WeatherService.getHalfday().then(function(response){$scope.halfday = response;});
+  WeatherService.getPsi().then(function(response){$scope.psi = response});
+  WeatherService.getThreeday().then(function(response){$scope.threeDay = response});
+  WeatherService.getRain().then(function(response){$scope.threeDay = response});
 
 
-    WeatherService.getHalfday().then(function(response){
-    $scope.halfday = response;
-  })
 
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
