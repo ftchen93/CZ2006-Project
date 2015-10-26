@@ -1,11 +1,71 @@
+<ion-view view-title="Weather">
+
+  <!-- The title of the ion-view will be shown on the navbar -->
+  <ion-header-bar class="bar-positive">
+    <h1 class="title">Weather</h1>
+    <title>Settings</title>
+  </ion-header-bar>
+
+  <ion-content>
+
+      <!-- Background -->
+      <background-cycler class="bg-fade"></background-cycler>
+
+      <div id="main-content">
+
+        <!-- Temperature -->
+        <div id="current-weather">
+
+          <!-- Location -->
+          <h5 class="title">
+              <span class="city"><i id="city-nav-icon" class="icon ion-navigate"></i>
+                 {{nowcast.channel.item.weatherForecast.area[9]._name}}
+              </span><br>
+              <current-time localtz="current.local_tz_short"></current-time>
+          </h5>
+
+          <h4>
+            <i class={{iconSet[nowcast.channel.item.weatherForecast.area[9]._icon]}} id="current-icon"></i>
+
+            {{nowcast.channel.item.weatherForecast.area[9]._forecast}}
+          </h4>
+          <h4>
+            <span id="temp-hi"><i class="icon ion-arrow-up-c"></i> <span ng-bind=halfday.channel.item.temperature._high>
+            </span>&deg;</span>
+            <span id="temp-lo"><i class="icon ion-arrow-down-c"></i> <span ng-bind=halfday.channel.item.temperature._low>
+            </span>&deg;</span>
+          </h4>
+          <h2 class="current-temp"><span ng-bind='' ></span>
+            {{(halfday.channel.item.temperature._high*1 + halfday.channel.item.temperature._low*1)/2}}&deg;</h2>
+
+        </div>
+
+        <!-- Forecast -->
+        <div id="forecast" class="weather-box">
+          <h4 class="title">Forecast</h4>
+          <div class="row" ng-repeat="i in [0,1,2]">
+            <div class="col"><span ng-bind=threeday.channel.item.weatherForecast.day[i]></span></div>
+            <div class="col"><i class={{iconSet[threeday.channel.item.weatherForecast.icon[i]]}}></i></div>
+
+            <div class="col">
+              <span class="temp-high">{{threeday.channel.item.weatherForecast.temperature[i]._high}}&deg;</span>
+              <span class="temp-low">{{threeday.channel.item.weatherForecast.temperature[i]._low}}&deg;</span>
+            </div>
+          </div>
 
 
-<div class="padding">
-<h2>this is nowcast</h2>
-123
-<ul>
-<li>
+          {{threeDay.channel.item.weatherForecast.forecast[0]}}
+          <!-- Source -->
+          <div class="clearfix">
+            <div class="credit">
+              Data from <a href="http://www.nea.gov.sg" target="_blank">NEA Singapore</a>
+            </div>
+          </div>
 
-</li>
-</ul>
-</div>
+        </div>
+
+      </div>
+
+  </ion-content>
+
+</ion-view>

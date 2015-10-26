@@ -62,11 +62,24 @@ angular.module('starter.controllers', [])
 })
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
 
+  $scope.aaa= 'ion-ios-partlysunny-outline';
+    $scope.iconSet = {'PC': 'ion-ios-partlysunny-outline',
+      'WD': 'ion-ios-load-b',
+      'CD': 'ion-ios-cloudy-outline',
+      'HA': 'ion-ios-cloudy',
+      'RA': 'ion-ios-rainy-outline',
+      'SH': 'ion-ios-rainy-outline',
+      'TS': 'ion-ios-bolt',
+      'PS': 'ion-ios-thunderstorm-outline',
+      'FD': 'ion-ios-sunny-outline',
+      'FN': 'ion-ios-moon-outline'};
+
   $scope.weather = WeatherService;
 
 
   WeatherService.getNowcast().then(function(response){
     $scope.nowcast = response;
+
     var areaList=[];
 
     $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area;
@@ -83,7 +96,7 @@ angular.module('starter.controllers', [])
   });
   WeatherService.getHalfday().then(function(response){$scope.halfday = response;});
   WeatherService.getPsi().then(function(response){$scope.psi = response});
-  WeatherService.getThreeday().then(function(response){$scope.threeDay = response});
+  WeatherService.getThreeday().then(function(response){$scope.threeday = response});
   WeatherService.getRain().then(function(response){$scope.threeDay = response});
 
 
