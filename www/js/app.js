@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','xml'])
 
 
 .run(function($ionicPlatform, $rootScope) {
@@ -23,7 +23,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
 
     // Hide the tabs since we have a navigation page
-    $rootScope.hideTabs = true;
+    //$rootScope.hideTabs = true;
 
   });
 
