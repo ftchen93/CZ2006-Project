@@ -56,13 +56,16 @@ angular.module('starter.services', [])
     var threeday = [];
     var psi = [];
     var rain = [];
+    var x2js = new X2JS();
     return {
 
       getNowcast:function(){
         var nowcastapi="http://www.nea.gov.sg/api/WebAPI?dataset=nowcast&keyref=" + key;
-          return $http.get(nowcastapi)
-          .then(function(response){
-            nowcast = response.data;
+          return $http({
+            method : 'GET',
+            url : nowcastapi
+          }).then(function(response){
+            nowcast = x2js.xml2json(response.data);
               return nowcast;
         })
       },
