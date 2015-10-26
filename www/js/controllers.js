@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('HomeCtrl' , function ($scope){
+.controller('HomeCtrl' , function ($scope){
     $scope.picture = {
       "artworks": [
         {
@@ -30,7 +30,8 @@ angular.module('starter.controllers', [])
 
       ]
     };
-  })
+})
+
 .controller('DashCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
