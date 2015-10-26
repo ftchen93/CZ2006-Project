@@ -125,7 +125,7 @@ angular.module('starter.services', [])
       getThreeday:function(){
           return $http.get(threedayapi)
           .then(function(response){
-            return response.data;
+            return x2js.xml_str2json(response.data);
         },function(res){
               return x2js.xml_str2json(threedayFallBack);
             })
@@ -134,7 +134,7 @@ angular.module('starter.services', [])
       getPsi:function(){
           return $http.get(psiapi)
           .then(function(response){
-            return response.data;
+            return x2js.xml_str2json(response.data);
         },function(res){
               return x2js.xml_str2json(psiFallBack);
             })
@@ -143,7 +143,7 @@ angular.module('starter.services', [])
       getRain:function(){
           return $http.get(rainapi)
           .then(function(response){
-            return response.data;
+            return x2js.xml_str2json(response.data);
         },function(res){
               return x2js.xml_str2json(rainFallBack);
             })

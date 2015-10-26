@@ -97,7 +97,7 @@ angular.module('starter.controllers', [])
   WeatherService.getHalfday().then(function(response){$scope.halfday = response;});
   WeatherService.getPsi().then(function(response){$scope.psi = response});
   WeatherService.getThreeday().then(function(response){$scope.threeday = response});
-  WeatherService.getRain().then(function(response){$scope.threeDay = response});
+  WeatherService.getRain().then(function(response){$scope.rain = response});
 
 
 
