@@ -62,10 +62,23 @@ angular.module('starter.controllers', [])
 })
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
 
-    
   WeatherService.getNowcast().then(function(response){
     $scope.nowcast = response;
+    var areaList=[];
+
+    $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area ;
+
+    for(var i=0; i < $scope.areaList.length; i++){
+      areaList.push({
+        area:$scope.areaList[i]._name,
+        forecast:$scope.areaList[i]._forecast,
+        zone:$scope.areaList[i]._zone
+        });
+      }
+    $scope.areaname = areaList;
+
   })
+
 
     WeatherService.getHalfday().then(function(response){
     $scope.halfday = response;
