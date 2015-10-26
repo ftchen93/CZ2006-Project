@@ -65,7 +65,7 @@ angular.module('starter.services', [])
             method : 'GET',
             url : nowcastapi
           }).then(function(response){
-            nowcast = x2js.xml2json(response.data);
+            nowcast = x2js.xml_str2json(response.data);
               return nowcast;
         })
       },
@@ -74,7 +74,7 @@ angular.module('starter.services', [])
         var halfdayapi="http://www.nea.gov.sg/api/WebAPI?dataset=12hrs_forecast&keyref=" + key;
           return $http.get(halfdayapi)
           .then(function(response){
-            halfday = response.data;
+            halfday = x2js.xml_str2json(response.data);
               return halfday ;
         })
       },

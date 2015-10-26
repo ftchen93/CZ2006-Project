@@ -62,10 +62,14 @@ angular.module('starter.controllers', [])
 })
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
 
-    $scope.nowcast = WeatherService.getNowcast();
+    
+  WeatherService.getNowcast().then(function(response){
+    $scope.nowcast = response;
+  })
 
-    $scope.halfDay = WeatherService.getHalfday();
-
+    WeatherService.getHalfday().then(function(response){
+    $scope.halfday = response;
+  })
 
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
