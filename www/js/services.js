@@ -179,7 +179,7 @@ angular.module('starter.services')
     }
   });
 
-angular.module("starter.services", [])
+angular.module("starter.services")
   .factory('sharedData', function() {
     return {
       input: {

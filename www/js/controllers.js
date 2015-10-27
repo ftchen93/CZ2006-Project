@@ -100,6 +100,8 @@ angular.module('starter.controllers', [])
       $scope.data[$scope.index].selected = selectedItem;
     };
   })
+
+
 .controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
 
   $scope.aaa= 'ion-ios-partlysunny-outline';
@@ -159,10 +161,6 @@ angular.module('starter.controllers', [])
 
 
 })
-
-.controller('NowcastCtrl', function ($scope) {
-
- })
 
 .controller('PlanCtrl', function($scope) {})
 
