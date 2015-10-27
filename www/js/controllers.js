@@ -137,6 +137,97 @@ angular.module('starter.controllers', [])
       disabledRegistrableTagNames: []
     };
   }
-});
+})
 
+.controller('PlanCtrl', function($scope, $state, sharedData){
+
+  //if validation success, go to tab-view.html
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      $state.go('tab.view');
+    }
+  };
+
+  $scope.input = sharedData.input;
+  $scope.input.activity = "";
+  $scope.input.location = "";
+  $scope.input.time = "";
+
+  //All the possible result from forecast
+  var initialRating = [{
+    abb: 'FD', Weather: 'Fair Day', Rating: 100
+  }, {
+    abb: 'FN', Weather: 'Fair Night', Rating: 100
+  }, {
+    abb: 'PC', Weather: 'Partly Cloudy', Rating: 90
+  }, {
+    abb: 'CD', Weather: 'Cloudy', Rating: 80
+  }, {
+    abb: 'HZ', Weather: 'Haze', Rating: 70
+  }, {
+    abb: 'WD', Weather: 'Rain', Rating: 30
+  }, {
+    abb: 'PS', Weather: 'Passing Shower', Rating: 40
+  }, {
+    abb: 'SH', Weather: 'Shower', Rating: 25
+  }, {
+    abb: 'TS', Weather: 'Thundery Storms', Rating: 10
+  }];
+  //Current only 3 activities is included. case sensitive
+  var activity = [{
+    work: 'Run', intensity: '3'
+  }, {
+    work: 'Fast walk', intensity: '2'
+  },{
+    work: 'Walk', intensity: '1'
+  }];
+
+  var rating = 0;
+  var intensitylvl = 0;
+
+  $scope.input.rating =  function(){
+    //forecast and 3h psi is needed
+    //if else will be used to retrieve 3h and 12h data
+    var forecast = "HZ";
+    var psi = "400";
+
+    //Get the Rating from initialRating from the expected weather forecast
+    angular.forEach(initialRating, function(value, key)
+    {
+      if (value.abb === forecast)
+      {
+        rating = value.Rating;
+      }
+    });
+
+    //Only when the forecast is haze, the rating will be affected based on 3h psi
+    //and activity intensity
+    if(forecast === "HZ") {
+      angular.forEach(activity, function (value, key) {
+        if (value.work === $scope.input.activity) {
+          intensitylvl = value.intensity;
+
+          if (intensitylvl == 1) {
+            rating = rating - ((psi - 100) /6);
+          }else if(intensitylvl == 2){
+            rating = rating - ((psi - 100) /4);
+          }else if(intensitylvl == 3){
+            rating = rating - ((psi - 100) /2);
+          }
+        }
+      });
+      // Do not want any decimal value
+      rating = rating.toFixed(0);
+      //There should be no negative answer for rating
+      if(rating < 0 ){
+        rating = 0;
+      }
+    }
+    return rating;
+  }
+})
+
+.controller('ViewCtrl', function ($scope, sharedData){
+  $scope.input = sharedData.input;
+});
 

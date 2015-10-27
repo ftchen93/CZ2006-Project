@@ -1,0 +1,44 @@
+<ion-view view-title="Plan Activity Form">
+  <ion-content class="padding">
+    <form name="InputForm" ng-submit="submitForm(InputForm.$valid)" novalidate>
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label"><b>Enter an Activity :</b></span>
+        </label>
+        <label class="item item-input">
+          <select ng-model="input.activity" ng-init="input.activity='Run'">
+            <option value="Run">Run</option>
+            <option value="Fast walk">Fast Walk</option>
+            <option value="Walk">Walk</option>
+          </select>
+        </label>
+        <label class="item item-input">
+          <span class="input-label"><b>Choose an location: </b></span>
+        </label>
+        <label class="item">
+          <select ng-model="input.location" ng-init="input.location='North'">
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="Central">Central</option>
+          </select>
+        </label>
+        <label class="item item-input">
+          <span class="input-label"><b>Select a time (next 3 hours or next 12 hours): </b></span>
+        </label>
+        <label class="item item-radio">
+          <input type="radio" name="time" ng-model="input.time" value="3"  ng-required="true">
+          <div class="item-content" >Within the next 3 Hours</div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio" name="time" ng-model="input.time" value="12">
+          <div class="item-content">Within the next 12 Hours</div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <button class="button button-full button-calm" ng-click="submit()">Submit</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

@@ -136,13 +136,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','x
       .state('tab.plan', {
         url: '/plan',
         views: {
-          'tab-settings': {
+          'tab-plan': {
             templateUrl: 'templates/tab-plan.html',
             controller: 'PlanCtrl'
           }
         }
       })
 
+      .state('tab.view', {
+        url: '/view',
+        views: {
+          'tab-view': {
+            templateUrl: 'templates/tab-view.html',
+            controller: 'ViewCtrl'
+          }
+        }
+      })
 
     ;
 
