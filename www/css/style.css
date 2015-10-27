@@ -1,11 +1,36 @@
 /* Empty. Add your own CSS if you like */
+.home-bg{
+  background: url("../img/background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size:cover;
+  -o-background-size: cover;
+  background-size:cover;
+
+}
 .wrapper{
+  position:relative;
   width: 484px;
   margin: 0 auto;
+  height:100vh;
 }
+
+.container {
+  position:absolute;
+  top:50%;
+  height:416px;
+  margin-top:-208px;
+}
+
 .wrapper ul{width:100%;
 }
 
-.wrapper ul li{width:50%; float:left; margin-top:-4.5px;}
+.wrapper ul li{width:50%; float:left; margin-top:-5px;}
 .wrapper ul li img{width:100%;}
+
+@media only screen and (max-width: 500px){
+  .wrapper{
+    width:320px;
+  }
+}
+
 

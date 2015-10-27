@@ -1,7 +1,3 @@
-.wrapper {
-  background-color: black;
-}
-
 .bg-image {
   background-image: url('../img/background.jpg');
   position: fixed;
