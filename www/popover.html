@@ -3,7 +3,7 @@
     <div class="list">
 
       <label class="item item-radio">
-        <input type="radio" name="group" checked>
+        <input type="radio" name="group" ng-value = 'n' checked>
         <div class="item-content">
           North
         </div>
@@ -11,7 +11,7 @@
       </label>
 
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" name="group"  ng-value = 's'>
         <div class="item-content">
           South
         </div>
@@ -19,7 +19,7 @@
       </label>
 
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" name="group"  ng-value = 'e'>
         <div class="item-content">
           East
         </div>
@@ -27,9 +27,17 @@
       </label>
 
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" name="group"  ng-value = 'w'>
         <div class="item-content">
           West
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+
+      <label class="item item-radio">
+        <input type="radio" name="group"  ng-value = 'c'>
+        <div class="item-content">
+          Central
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>

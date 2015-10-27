@@ -1,17 +1,18 @@
 <ion-view view-title="Settings">
   <ion-content>
     <ion-list>
-
+      <div ng-controller="SettingsCtrl">
       <div class="item item-divider">
         Metrics
       </div>
-      <ion-toggle  ng-controller = "AccountCtrl" ng-model="settings.celsius">
-        Celsius/Fahrenheit
+      <ion-toggle ng-model="celsius" ng-change="toggleChange()">
+        Celsius/Fahrenheit {{temperature}}
       </ion-toggle>
 
       <div class="item item-divider">
         Set Location
       </div>
+
       <div class="list item-icon-left list-area" ng-controller="PopOver">
           <a ng-repeat="item in data" class="item white {{item.selected}}" ng-click="showPopover($event, $index)">
             <span ng-bind="item.name"></span>
@@ -25,7 +26,7 @@
       <ion-toggle ng-model="settings.notifications">
         Push Notifications
       </ion-toggle>
-
-      </ion-list>
+    </div>
+    </ion-list>
   </ion-content>
 </ion-view>
