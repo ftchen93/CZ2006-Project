@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.factory('WeatherService', function ($http) {
+  .factory('WeatherService', function ($http) {
     var key ="781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
 
     var nowcast = [];
@@ -26,9 +26,9 @@ angular.module('starter.services', [])
     var x2js = new X2JS();
 
     var hd = $http.get(halfdayapi)
-              .then(function(response){
-                  return x2js.xml_str2json(response.data);
-              });
+      .then(function(response){
+        return x2js.xml_str2json(response.data);
+      });
     obtainInfo = function (url,fallback,x2js){
       var result;
       $http.get(url)
@@ -50,77 +50,77 @@ angular.module('starter.services', [])
       psi :obtainInfo(psiapi,psiFallBack,x2js),
 
       all:function(){
-          return hd;
+        return hd;
       },
 
       get:function(response,item){
-          return hd.then(function(response){
-            for(var i=0; i < response.length; i++){
-              if(response[i].id === item){
-                  return response[i];
-              }
+        return hd.then(function(response){
+          for(var i=0; i < response.length; i++){
+            if(response[i].id === item){
+              return response[i];
             }
-          });
+          }
+        });
       },
 
 
       getNowcast:function(){
         //nowcastapi = "http://localhost:8100/?restart=573323#/tab/about";
         console.log("running");
-          return $http({
-            method : 'GET',
-            url : nowcastapi
-          }).then(function(response){
-            console.log("received")
-            nowcast = x2js.xml_str2json(response.data);
-              console.log("run");
-              console.log(response.status);
-              return nowcast;
+        return $http({
+          method : 'GET',
+          url : nowcastapi
+        }).then(function(response){
+          console.log("received")
+          nowcast = x2js.xml_str2json(response.data);
+          console.log("run");
+          console.log(response.status);
+          return nowcast;
         },function(resp){
-            console.log("failed");
-            return(x2js.xml_str2json(nowcastFallBack));
-          })
+          console.log("failed");
+          return(x2js.xml_str2json(nowcastFallBack));
+        })
       },
 
       getHalfday:function(){
-          return $http.get(halfdayapi)
+        return $http.get(halfdayapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(halfdayFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(halfdayFallBack);
+          })
       },
 
       getThreeday:function(){
-          return $http.get(threedayapi)
+        return $http.get(threedayapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(threedayFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(threedayFallBack);
+          })
       },
 
       getPsi:function(){
-          return $http.get(psiapi)
+        return $http.get(psiapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(psiFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(psiFallBack);
+          })
       },
 
       getRain:function(){
-          return $http.get(rainapi)
+        return $http.get(rainapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(rainFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(rainFallBack);
+          })
       }
     }
   })
 
-.factory('Location',function(){
+  .factory('Location',function(){
     var ShortLocation = 'North';
     var LongLocation = 'QUEENSTOWN';
     return{
@@ -129,19 +129,19 @@ angular.module('starter.services', [])
     }
   })
 
-.factory ( 'Settings',function () {
-    var Celsius = true;
-    return {
-      setDisplay: function (value) {
-        Celsius = value;
-      },
-      getDisplay: function () {
-        return Celsius;
-      }
+  .factory ( 'Settings',function () {
+  var Celsius = true;
+  return {
+    setDisplay: function (value) {
+      Celsius = value;
+    },
+    getDisplay: function () {
+      return Celsius;
     }
-  })
+  }
+})
 
-.factory('sharedData', function() {
+  .factory('sharedData', function() {
     return {
       input: {
         activity: '',
@@ -177,12 +177,12 @@ angular.module("starter.services")
 
     return {
       getRating: function(forecast) {
-          for(i=0; i<initialRating.length; i++){
-              if(initialRating[i].abb == forecast){
-                  return initialRating[i].Rating;
-              }
+        for(i=0; i<initialRating.length; i++){
+          if(initialRating[i].abb == forecast){
+            return initialRating[i].Rating;
           }
-          return 0;
+        }
+        return 0;
       }
     };
   });
@@ -210,3 +210,19 @@ angular.module("starter.services")
       }
     }
   });
+
+angular.module('starter.services')
+  .factory('LocationIndex', function(WeatherCtrl){
+    $scope.zoneCode = $scope.nowcast.channel.item.weatherForecast.zone;
+
+    if($scope.zoneCode == "N")
+      $scope.zoneIndex = 0;
+    else if ($scope.zoneCode == "S")
+      $scope.zoneIndex = 1;
+    else if ($scope.zoneCode == "E")
+      $scope.zoneIndex = 2;
+    else if ($scope.zoneCode == "W")
+      $scope.zoneIndex = 3;
+    else if ($scope.zoneCode == "C")
+      $scope.zoneIndex = 4;
+  })

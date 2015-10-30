@@ -2,20 +2,49 @@
   <ion-content>
     <ion-list>
 
-      <div class="item item-divider">
-        Metrics
+      <div ng-controller="SettingsCtrl" ng-init="loadData()" ng-model="toggle1;">
+        <div class="item item-divider">
+          Metrics
+        </div>
+
+        <ion-toggle ng-model="metrics.celsius" ng-change="toggleChange()" ng-click="saveData(tempUnit)">
+          Celsius {{temperature}} {{tempUnit}}
+        </ion-toggle>
+
+        <ion-toggle ng-model="!metrics.celsius" ng-change="toggleChange()" ng-click="saveData(tempUnit)">
+          Fahrenheit {{temperature}} {{tempUnit}}
+        </ion-toggle>
+
+        <button ng-click="loadData()">load</button>
+
       </div>
-      <ion-toggle ng-model="metrics.celsius" >
-        Celsius{{metrics.celsius}}{{fahrenheit}}
-      </ion-toggle>
-      <ion-toggle ng-model="metrics.fahrenheit" ng-value="f">
-        Fahrenheit
-      </ion-toggle>
+
+
+
+
 
       <div class="item item-divider">
         Set Location
       </div>
 
+
+      <!--
+        <div ng-controller="WeatherCtrl">
+          <div ng-repeat="n in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44] track by $index">
+           <div>{{nowcast.channel.item.weatherForecast.area[n]._name}}</div>
+          </div>
+        </div>
+    --><div ng-controller="WeatherCtrl">
+      <select>
+        <option ng-model="input.location" ng-repeat="n in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44] track by $index">
+          {{nowcast.channel.item.weatherForecast.area[n]._name}}</option>
+      </select></div>
+
+      <!--
+    <div ng-controller="SettingsCtrl" ng-model="location" ion-list="locations()">
+      {{locations}}
+      </div>
+<!--
       <div class="list item-icon-left list-area" ng-controller="PopOver">
           <a ng-repeat="item in data" class="item white {{item.selected}}" ng-click="showPopover($event, $index)">
             <span ng-bind="item.name"></span>
@@ -29,6 +58,8 @@
       <ion-toggle ng-model="settings.notifications">
         Push Notifications
       </ion-toggle>
+    </div>
+    -->
 
     </ion-list>
   </ion-content>
