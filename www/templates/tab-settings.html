@@ -1,12 +1,15 @@
 <ion-view view-title="Settings">
   <ion-content>
     <ion-list>
-      <div ng-controller="SettingsCtrl">
+
       <div class="item item-divider">
         Metrics
       </div>
-      <ion-toggle ng-model="celsius" ng-change="toggleChange()">
-        Celsius/Fahrenheit {{temperature}}
+      <ion-toggle ng-model="metrics.celsius" >
+        Celsius{{metrics.celsius}}{{fahrenheit}}
+      </ion-toggle>
+      <ion-toggle ng-model="metrics.fahrenheit" ng-value="f">
+        Fahrenheit
       </ion-toggle>
 
       <div class="item item-divider">
@@ -26,7 +29,7 @@
       <ion-toggle ng-model="settings.notifications">
         Push Notifications
       </ion-toggle>
-    </div>
+
     </ion-list>
   </ion-content>
 </ion-view>

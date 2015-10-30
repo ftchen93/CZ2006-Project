@@ -56,22 +56,23 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SettingsCtrl', function($scope) {
-   $scope.temperature = 30;
-
+   $scope.fahrenheit = 30;
    $scope.metrics = {
-    celsius:false
+      celsius:true
     };
 
-    //$scope.settings = {
-    //  notifications:false
-    // };
+    $scope.settings = {
+      notifications:false
+    };
 
-    $scope.toggleChange = function(){
-      if($scope.celsius == true)
-       $scope.temperature = $scope.temperature * 1.8 + 32;
-      else
-       $scope.temperature = 30;
-    }
+
+
+    if ($scope.metrics.celsius == true) {
+      $scope.fahrenheit  *= 33.8;
+
+      }
+
+
 
   })
 
@@ -92,7 +93,7 @@ angular.module('starter.controllers', [])
     {
       $scope.index = index;
       $scope.popover.show($event);
-    }
+    };
 
     $scope.closeInController = function(selectedItem) {
       $scope.popover.hide();
