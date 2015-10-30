@@ -152,3 +152,62 @@ angular.module('starter.services', [])
       }
     };
   });
+
+angular.module("starter.services")
+  .factory('ratingService', function() {
+    //All the possible result from forecast
+    var initialRating = [{
+      abb: 'FD', Weather: 'Fair Day', Rating: 100
+    }, {
+      abb: 'FN', Weather: 'Fair Night', Rating: 100
+    }, {
+      abb: 'PC', Weather: 'Partly Cloudy', Rating: 90
+    }, {
+      abb: 'CD', Weather: 'Cloudy', Rating: 80
+    }, {
+      abb: 'HZ', Weather: 'Haze', Rating: 70
+    }, {
+      abb: 'WD', Weather: 'Rain', Rating: 30
+    }, {
+      abb: 'PS', Weather: 'Passing Shower', Rating: 40
+    }, {
+      abb: 'SH', Weather: 'Shower', Rating: 25
+    }, {
+      abb: 'TS', Weather: 'Thundery Storms', Rating: 10
+    }];
+
+    return {
+      getRating: function(forecast) {
+          for(i=0; i<initialRating.length; i++){
+              if(initialRating[i].abb == forecast){
+                  return initialRating[i].Rating;
+              }
+          }
+          return 0;
+      }
+    };
+  });
+
+angular.module("starter.services")
+  .factory('activityService', function() {
+
+    //Current only 3 activities is included. case sensitive
+    var activitylist = [{
+      name: 'Run', intensity: 3
+    },{
+      name: 'Fast walk', intensity: 2
+    },{
+      name: 'Walk', intensity: 1
+    }];
+
+    return{
+      getIntensitylvl: function(activity){
+        for(i=0; i<activitylist.length; i++){
+          if(activitylist[i].name == activity){
+            return activitylist[i].intensity;
+          }
+        }
+        return 0;
+      }
+    }
+  });
