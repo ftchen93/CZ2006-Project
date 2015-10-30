@@ -170,6 +170,7 @@ angular.module('starter.services')
     var Celsius = true;
 
     return {
+      v: Celsius,
       setDisplay: function (value) {
         Celsius = value;
       },
@@ -190,3 +191,20 @@ angular.module("starter.services")
       }
     };
   });
+
+
+angular.module('starter.services')
+  .factory('LocationIndex', function(WeatherCtrl){
+    $scope.zoneCode = $scope.nowcast.channel.item.weatherForecast.zone;
+
+    if($scope.zoneCode == "N")
+      $scope.zoneIndex = 0;
+    else if ($scope.zoneCode == "S")
+      $scope.zoneIndex = 1;
+    else if ($scope.zoneCode == "E")
+      $scope.zoneIndex = 2;
+    else if ($scope.zoneCode == "W")
+      $scope.zoneIndex = 3;
+    else if ($scope.zoneCode == "C")
+      $scope.zoneIndex = 4;
+  })

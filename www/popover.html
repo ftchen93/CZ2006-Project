@@ -1,11 +1,23 @@
 <ion-popover-view>
   <ion-content>
     <div class="list">
+      <div ng-controller="WeatherCtrl">
 
+
+        <label class="item item-radio">
+          <input type="radio" name="group" ng-value = 'n' checked>
+          <div class="item-content">
+            North  {{nowcast.channel.item.weatherForecast.area[i]._name}}
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+
+
+<!--
       <label class="item item-radio">
         <input type="radio" name="group" ng-value = 'n' checked>
         <div class="item-content">
-          North
+          North  {{nowcast.channel.item.weatherForecast.area[i]._name}}
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
@@ -41,7 +53,8 @@
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
-
+-->
+    </div>
     </div>
   </ion-content>
 </ion-popover-view>
