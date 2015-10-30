@@ -235,7 +235,61 @@ angular.module('starter.controllers', [])
     $scope.input.location = "";
     $scope.input.time = "";
 
+    WeatherService.getNowcast().then(function(response){
+    var nowcastData = [];
+    $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
+    $scope.l=nowcastData; //for testing purpose
+
+    //store data from response into nowcastData
+    for(var i=0; i < $scope.nowcast.length; i++){
+      nowcastData.push({
+        area:$scope.nowcast[i]._name,
+        forecast:$scope.nowcast[i]._forecast,
+        zone:$scope.nowcast[i]._zone
+      });
+    }
+
+    $scope.onchange=function(){
+        switch($scope.input.location){
+        case "North":
+              $scope.aa='N';
+              break;
+        case "South":
+              $scope.aa='S';
+              break;
+        case "East":
+              $scope.aa='E';
+              break;
+        case  "West":
+              $scope.aa='W';
+              break;
+        case "Central":
+              $scope.aa='C';
+              break;
+        default:
+            $scope.aa='N';
+            break;
+      }
+      for(var i=0; i < nowcastData.length; i++){
+          if(nowcastData[i].zone === $scope.aa){
+              
+              $scope.f = nowcastData[i].forecast;
+              break;
+          }
+     
+
+    }
+
+        
+        }
+  }); //end of nowcast service
+
+    
     $scope.input.rating =  function() {
+
+
+
+
 
       var location = [{
         location: 'West', region: 4 , areaNumber: 7
@@ -249,15 +303,17 @@ angular.module('starter.controllers', [])
         location: 'Central', region: 2 ,areaNumber: 0
       }];
 
-      var forecast = "HZ";
       var psi = "250";
 
-      var rating = ratingService.getRating(forecast);
+      var rating = ratingService.getRating($scope.f);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
 
-      //Only when the forecast is haze, the rating will be affected based on 3h psi
+
+       //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
-      if (forecast == "HZ") {
+
+      //forecast = $scope.aa (need to change back to this)
+      if ($scope.aa == "HZ") {
         if (intensitylvl == 1) {
           rating = rating - ((psi - 100) / 5);
         } else if (intensitylvl == 2) {
@@ -266,6 +322,7 @@ angular.module('starter.controllers', [])
           rating = rating - ((psi - 100) / 2);
         }
       }
+      
 
       // Do not want any decimal value
       rating = rating.toFixed(0);
