@@ -69,10 +69,10 @@ angular.module('starter.controllers', [])
 
     if ($scope.metrics.celsius == true) {
       $scope.fahrenheit  *= 33.8;
-      
+
       }
 
-    
+
 
   })
 
@@ -93,7 +93,7 @@ angular.module('starter.controllers', [])
     {
       $scope.index = index;
       $scope.popover.show($event);
-    }
+    };
 
     $scope.closeInController = function(selectedItem) {
       $scope.popover.hide();

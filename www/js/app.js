@@ -96,6 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','x
 
       .state('tab.weather', {
         url: '/weather',
+        cache: disabled,
         views: {
           'tab-weather': {
             templateUrl: 'templates/tab-weather.html',
