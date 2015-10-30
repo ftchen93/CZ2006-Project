@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
 
 })
 
-  .controller('SettingsCtrl', function($scope, $localStorage, WeatherService) {
+  .controller('SettingsCtrl', function($scope, $window) {
     $scope.temperature = 30;
     $scope.tempUnit = false;
 
@@ -50,12 +50,12 @@ angular.module('starter.controllers', [])
     //Local Storage
     $scope.saveData = function(v) {
       //$localStorage.message = $scope.tempUnit;
-      window.localStorage.setItem("data", v);
+      $window.localStorage["data"] = v;
     }
 
     $scope.loadData = function() {
       //$scope.message = $localStorage.message;
-      $scope.tempUnit = window.localStorage.getItem("data");
+      $scope.tempUnit = $window.localStorage["data"];
       //alert($scope.tempUnit);
       if ($scope.tempUnit === true){
         $scope.metrics = {celsius: true};
