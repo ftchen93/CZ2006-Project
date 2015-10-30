@@ -55,21 +55,20 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SettingsCtrl', function($scope, $localStorage, Settings) {
+.controller('SettingsCtrl', function($scope, $window) {
   $scope.temperature = 30;
+  $scope.tempUnit = false;
 
   //Local Storage
   $scope.saveData = function(v) {
-    window.localStorage.setItem("temperatureUnit", v);
+    $window.localStorage["temperatureUnit"] = v;
+
   }
 
   $scope.loadData = function() {
-    $scope.tempUnit = window.localStorage.getItem("temperatureUnit");
-    //alert($scope.tempUnit);
-    $scope.toggle1 = Settings.v;
-    $scope.metrics.celsius = true;
-
-
+    $scope.tempUnit = $window.localStorage["temperatureUnit"];
+    alert($scope.tempUnit);
+    //$scope.metrics.celsius = true;
   }
 
   //Celsius - Fahrenheit toggle
