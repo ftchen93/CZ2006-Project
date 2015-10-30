@@ -1,55 +1,6 @@
 angular.module('starter.services', [])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-})
-
-.factory('WeatherService', function ($http) {
+  .factory('WeatherService', function ($http) {
     var key ="781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
 
     var nowcast = [];
@@ -74,16 +25,20 @@ angular.module('starter.services', [])
 
     var x2js = new X2JS();
 
+    var hd = $http.get(halfdayapi)
+      .then(function(response){
+        return x2js.xml_str2json(response.data);
+      });
     obtainInfo = function (url,fallback,x2js){
       var result;
       $http.get(url)
         .then(function(response){
           result = x2js.xml_str2json(response.data);
-          return result;
         },function(response){
           console.log(url);
-          return x2js.xml_str2json(fallback);
+          result = x2js.xml_str2json(fallback);
         })
+      console.log(result);
       return result
     }
 
@@ -93,94 +48,99 @@ angular.module('starter.services', [])
       halfday : obtainInfo(halfdayapi,halfdayFallBack,x2js),
       threeday :obtainInfo(threedayapi,threedayFallBack,x2js),
       psi :obtainInfo(psiapi,psiFallBack,x2js),
-      rain : obtainInfo(rainapi,rainFallBack,x2js),
+
+      all:function(){
+        return hd;
+      },
+
+      get:function(response,item){
+        return hd.then(function(response){
+          for(var i=0; i < response.length; i++){
+            if(response[i].id === item){
+              return response[i];
+            }
+          }
+        });
+      },
+
 
       getNowcast:function(){
         //nowcastapi = "http://localhost:8100/?restart=573323#/tab/about";
         console.log("running");
-          return $http({
-            method : 'GET',
-            url : nowcastapi
-          }).then(function(response){
-            console.log("received")
-            nowcast = x2js.xml_str2json(response.data);
-              console.log("run");
-              console.log(response.status);
-              return nowcast;
+        return $http({
+          method : 'GET',
+          url : nowcastapi
+        }).then(function(response){
+          console.log("received")
+          nowcast = x2js.xml_str2json(response.data);
+          console.log("run");
+          console.log(response.status);
+          return nowcast;
         },function(resp){
-            console.log("failed");
-            return(x2js.xml_str2json(nowcastFallBack));
-          })
+          console.log("failed");
+          return(x2js.xml_str2json(nowcastFallBack));
+        })
       },
 
       getHalfday:function(){
-          return $http.get(halfdayapi)
+        return $http.get(halfdayapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(halfdayFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(halfdayFallBack);
+          })
       },
 
       getThreeday:function(){
-          return $http.get(threedayapi)
+        return $http.get(threedayapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(threedayFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(threedayFallBack);
+          })
       },
 
       getPsi:function(){
-          return $http.get(psiapi)
+        return $http.get(psiapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(psiFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(psiFallBack);
+          })
       },
 
       getRain:function(){
-          return $http.get(rainapi)
+        return $http.get(rainapi)
           .then(function(response){
             return x2js.xml_str2json(response.data);
-        },function(res){
-              return x2js.xml_str2json(rainFallBack);
-            })
+          },function(res){
+            return x2js.xml_str2json(rainFallBack);
+          })
       }
-
     }
-  });
+  })
 
-
-angular.module('starter.services')
   .factory('Location',function(){
-
     var ShortLocation = 'North';
     var LongLocation = 'QUEENSTOWN';
     return{
       ShortLocation : ShortLocation,
       LongLocation : LongLocation
     }
-  });
+  })
 
-angular.module('starter.services')
-  .factory ( 'Settings',
-  function () {
-    var Celsius = true;
-
-    return {
-      v: Celsius,
-      setDisplay: function (value) {
-        Celsius = value;
-      },
-      getDisplay: function () {
-        return Celsius;
-      }
+  .factory ( 'Settings',function () {
+  var Celsius = true;
+  return {
+    setDisplay: function (value) {
+      Celsius = value;
+    },
+    getDisplay: function () {
+      return Celsius;
     }
-  });
+  }
+})
 
-angular.module("starter.services")
   .factory('sharedData', function() {
     return {
       input: {
@@ -192,6 +152,64 @@ angular.module("starter.services")
     };
   });
 
+angular.module("starter.services")
+  .factory('ratingService', function() {
+    //All the possible result from forecast
+    var initialRating = [{
+      abb: 'FD', Weather: 'Fair Day', Rating: 100
+    }, {
+      abb: 'FN', Weather: 'Fair Night', Rating: 100
+    }, {
+      abb: 'PC', Weather: 'Partly Cloudy', Rating: 90
+    }, {
+      abb: 'CD', Weather: 'Cloudy', Rating: 80
+    }, {
+      abb: 'HZ', Weather: 'Haze', Rating: 70
+    }, {
+      abb: 'WD', Weather: 'Rain', Rating: 30
+    }, {
+      abb: 'PS', Weather: 'Passing Shower', Rating: 40
+    }, {
+      abb: 'SH', Weather: 'Shower', Rating: 25
+    }, {
+      abb: 'TS', Weather: 'Thundery Storms', Rating: 10
+    }];
+
+    return {
+      getRating: function(forecast) {
+        for(i=0; i<initialRating.length; i++){
+          if(initialRating[i].abb == forecast){
+            return initialRating[i].Rating;
+          }
+        }
+        return 0;
+      }
+    };
+  });
+
+angular.module("starter.services")
+  .factory('activityService', function() {
+
+    //Current only 3 activities is included. case sensitive
+    var activitylist = [{
+      name: 'Run', intensity: 3
+    },{
+      name: 'Fast walk', intensity: 2
+    },{
+      name: 'Walk', intensity: 1
+    }];
+
+    return{
+      getIntensitylvl: function(activity){
+        for(i=0; i<activitylist.length; i++){
+          if(activitylist[i].name == activity){
+            return activitylist[i].intensity;
+          }
+        }
+        return 0;
+      }
+    }
+  });
 
 angular.module('starter.services')
   .factory('LocationIndex', function(WeatherCtrl){

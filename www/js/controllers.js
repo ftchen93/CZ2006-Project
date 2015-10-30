@@ -122,10 +122,11 @@ angular.module('starter.controllers', [])
   })
 
 
-.controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
+  .controller('WeatherCtrl', function($scope,WeatherService) {
 
-  $scope.aaa= 'ion-ios-partlysunny-outline';
-    $scope.iconSet = {'PC': 'ion-ios-partlysunny-outline',
+    $scope.aaa= 'ion-ios-partlysunny-outline';
+    $scope.iconSet = {
+      'PC': 'ion-ios-partlysunny-outline',
       'WD': 'ion-ios-load-b',
       'CD': 'ion-ios-cloudy-outline',
       'HA': 'ion-ios-cloudy',
@@ -136,157 +137,167 @@ angular.module('starter.controllers', [])
       'FD': 'ion-ios-sunny-outline',
       'FN': 'ion-ios-moon-outline'};
 
-  $scope.weather = WeatherService;
+    //Include WeatherService before using the following function
+    //Service to get data from nowcast
+    WeatherService.getNowcast().then(function(response){
+      var nowcastData = [];
+      $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
+      $scope.l=nowcastData; //for testing purpose
 
-
-  WeatherService.getNowcast().then(function(response){
-    $scope.nowcast = response;
-
-    var areaList=[];
-
-    $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area;
-
-    for(var i=0; i < $scope.areaList.length; i++){
-      areaList.push({
-        area:$scope.areaList[i]._name,
-        forecast:$scope.areaList[i]._forecast,
-        zone:$scope.areaList[i]._zone
-      });
-    }
-    $scope.areaname = areaList;
-
-  });
-  WeatherService.getHalfday().then(function(response){$scope.halfday = response;});
-  WeatherService.getPsi().then(function(response){$scope.psi = response});
-  WeatherService.getThreeday().then(function(response){$scope.threeday = response});
-  WeatherService.getRain().then(function(response){$scope.rain = response});
-
-
-
-  $scope.next = function() {
-    $ionicSlideBoxDelegate.next();
-  };
-  $scope.previous = function() {
-    $ionicSlideBoxDelegate.previous();
-  };
-
-  // Called each time the slide changes
-  $scope.slideChanged = function(index) {
-    $scope.slideIndex = index;
-  };
-
-  $scope.navSlide= function(index) {
-    $ionicSlideBoxDelegate.slide(index,500);
-  };
-
-
-})
-
-.controller('PlanCtrl', function($scope) {})
-
-.controller('HistoryViewCtrl', function($scope, $rootScope) {
-  $scope.clearViewHistory = function() {
-    console.log('clearViewHistory');
-      $rootScope.$viewHistory = {
-      histories: { root: { historyId: 'root', parentHistoryId: null, stack: [], cursor: -1 } },
-      backView: null,
-      forwardView: null,
-      currentView: null,
-      disabledRegistrableTagNames: []
-    };
-  }
-})
-
-.controller('PlanCtrl', function($scope, $state, sharedData){
-
-  //if validation success, go to tab-view.html
-  $scope.submitForm = function(isValid) {
-    if (isValid) {
-      $state.go('tab.view');
-    }
-  };
-
-  $scope.input = sharedData.input;
-  $scope.input.activity = "";
-  $scope.input.location = "";
-  $scope.input.time = "";
-
-  //All the possible result from forecast
-  var initialRating = [{
-    abb: 'FD', Weather: 'Fair Day', Rating: 100
-  }, {
-    abb: 'FN', Weather: 'Fair Night', Rating: 100
-  }, {
-    abb: 'PC', Weather: 'Partly Cloudy', Rating: 90
-  }, {
-    abb: 'CD', Weather: 'Cloudy', Rating: 80
-  }, {
-    abb: 'HZ', Weather: 'Haze', Rating: 70
-  }, {
-    abb: 'WD', Weather: 'Rain', Rating: 30
-  }, {
-    abb: 'PS', Weather: 'Passing Shower', Rating: 40
-  }, {
-    abb: 'SH', Weather: 'Shower', Rating: 25
-  }, {
-    abb: 'TS', Weather: 'Thundery Storms', Rating: 10
-  }];
-  //Current only 3 activities is included. case sensitive
-  var activity = [{
-    work: 'Run', intensity: '3'
-  }, {
-    work: 'Fast walk', intensity: '2'
-  },{
-    work: 'Walk', intensity: '1'
-  }];
-
-  var rating = 0;
-  var intensitylvl = 0;
-
-  $scope.input.rating =  function(){
-    //forecast and 3h psi is needed
-    //if else will be used to retrieve 3h and 12h data
-    var forecast = "HZ";
-    var psi = "400";
-
-    //Get the Rating from initialRating from the expected weather forecast
-    angular.forEach(initialRating, function(value, key)
-    {
-      if (value.abb === forecast)
-      {
-        rating = value.Rating;
+      //store data from response into nowcastData
+      for(var i=0; i < $scope.nowcast.length; i++){
+        nowcastData.push({
+          area:$scope.nowcast[i]._name,
+          forecast:$scope.nowcast[i]._forecast,
+          zone:$scope.nowcast[i]._zone
+        });
       }
-    });
 
-    //Only when the forecast is haze, the rating will be affected based on 3h psi
-    //and activity intensity
-    if(forecast === "HZ") {
-      angular.forEach(activity, function (value, key) {
-        if (value.work === $scope.input.activity) {
-          intensitylvl = value.intensity;
-
-          if (intensitylvl == 1) {
-            rating = rating - ((psi - 100) /6);
-          }else if(intensitylvl == 2){
-            rating = rating - ((psi - 100) /4);
-          }else if(intensitylvl == 3){
-            rating = rating - ((psi - 100) /2);
-          }
+      var n ="KALLANG";   //data testing
+//    var f = function(nowcastData,key,n){
+      for(var i=0; i < nowcastData.length; i++){
+        if(nowcastData[i].area === n){
+          $scope.a = nowcastData[i].area;
+          $scope.f = nowcastData[i].forecast;
+          $scope.z = nowcastData[i].zone;
+          $scope.i = i;   //variable to store index no.
         }
-      });
+      }
+      //   }
+    }); //end of nowcast service
+
+    WeatherService.getHalfday().then(function(response){
+
+      var halfday  = response.channel.item;
+
+      $scope.wxmain    = halfday.wxmain;
+      $scope.wxeast    = halfday.wxeast;
+      $scope.wxwest    = halfday.wxwest;
+      $scope.wxnorth   = halfday.wxnorth;
+      $scope.wxsouth   = halfday.wxsouth;
+      $scope.wxcentral = halfday.wxcentral;
+
+      $scope.halfdayForecast = halfday.forecast;
+      $scope.tempHigh = halfday.temperature._high;
+      $scope.tempLow  = halfday.temperature._low;
+
+      $scope.humidityHigh = halfday.relativeHumidity._high;
+      $scope.humidityLow  = halfday.relativeHumidity._low;
+    });//end of 12hrs forecast service
+
+    WeatherService.getThreeday().then(function(response){
+      var threeday = response.channel.item.weatherForecast;
+
+      $scope.threedayDay   = threeday.day;
+      $scope.threedayIcon  = threeday.icon;
+
+      $scope.threedayTemp = [];
+      var threedayTemp    = threeday.temperature;
+      for(var i=0; i < threedayTemp.length; i++){
+        $scope.threedayTemp.push({
+          tempHigh:threedayTemp[i]._high,
+          tempLow:threedayTemp[i]._low
+        });
+      }
+
+      $scope.threedayForecast = [];
+      var threedayForecast    = threeday.forecast;
+      for(var i=0; i < threedayForecast.length; i++){
+        $scope.threedayForecast.push({
+          forecast:threedayForecast[i],
+        });
+      }
+    });//end of 3 days forecast service
+
+
+    WeatherService.getPsi().then(function(response){
+      var psi = response.channel.item.region;
+
+      var psiData = [];
+
+      for(var i=0;i<psi.length;i++){
+        psiData.push({
+          i:i,
+          regionId:psi[i].id,
+          psi24:psi[i].record.reading[0]._value,
+          psi3hr:psi[i].record.reading[1]._value
+        });
+      }
+      //Calculate Average Psi (3hrs)
+
+      var temp=0;
+      for(var i=0;i<(psiData.length-1);i++){
+        // if(psiData[i].i != 1){
+        temp=temp+psiData[i].psi3hr;
+        // }
+
+      }$scope.avgpsi3hrs = temp;
+      $scope.s = psiData[0].psi3hr;
+    });//end of psi service
+
+    WeatherService.getRain().then(function(response){$scope.rain = response});
+
+  })
+
+  .controller('PlanCtrl', function($scope, $state, sharedData, ratingService, activityService, WeatherService){
+
+    //if validation success, go to tab-view.html
+    $scope.submitForm = function(isValid) {
+      if (isValid) {
+        $state.go('tab.view');
+      }
+    };
+
+    $scope.input = sharedData.input;
+    $scope.input.activity = "";
+    $scope.input.location = "";
+    $scope.input.time = "";
+
+    $scope.input.rating =  function() {
+
+      var location = [{
+        location: 'West', region: 4 , areaNumber: 7
+      }, {
+        location: 'East', region: 3 , areaNumber: 1
+      },{
+        location: 'North', region: 0 , areaNumber: 9
+      },{
+        location: 'South', region: 5 , areaNumber: 17
+      },{
+        location: 'Central', region: 2 ,areaNumber: 0
+      }];
+
+      var forecast = "HZ";
+      var psi = "250";
+
+      var rating = ratingService.getRating(forecast);
+      var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
+
+      //Only when the forecast is haze, the rating will be affected based on 3h psi
+      //and activity intensity
+      if (forecast == "HZ") {
+        if (intensitylvl == 1) {
+          rating = rating - ((psi - 100) / 5);
+        } else if (intensitylvl == 2) {
+          rating = rating - ((psi - 100) / 4);
+        } else if (intensitylvl == 3) {
+          rating = rating - ((psi - 100) / 2);
+        }
+      }
+
       // Do not want any decimal value
       rating = rating.toFixed(0);
+
       //There should be no negative answer for rating
-      if(rating < 0 ){
+      if (rating < 0) {
         rating = 0;
       }
+      return rating;
     }
-    return rating;
-  }
-})
 
-.controller('ViewCtrl', function ($scope, sharedData){
-  $scope.input = sharedData.input;
-});
+  })
 
+  .controller('ViewCtrl', function ($scope, sharedData){
+    $scope.input = sharedData.input;
+  });
 

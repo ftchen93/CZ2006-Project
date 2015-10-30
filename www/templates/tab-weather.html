@@ -19,25 +19,30 @@
         <!-- Location -->
         <h5 class="title">
               <span class="city"><i id="city-nav-icon" class="icon ion-navigate"></i>
-                 {{nowcast.channel.item.weatherForecast.area[9]._name}}
+
+                 <!--{{nowcast[9]._name}}-->
+                 {{s}}
+                 {{avgpsi3hrs}}
+
+                 {{nowcast1.channel.item.weatherForecast.area[9]._name}}
               </span><br>
         </h5>
         <br>
         <h4>
           <i class={{iconSet[nowcast.channel.item.weatherForecast.area[9]._icon]}} id="current-icon"></i>
-          {{nowcast.channel.item.weatherForecast.area[9]._forecast}}
+          {{nowcast[9]._forecast}}
         </h4>
         <h4>
-            <span id="temp-hi"><i class="icon ion-arrow-up-c"></i> <span ng-bind=halfday.channel.item.temperature._high>
+            <span id="temp-hi"><i class="icon ion-arrow-up-c"></i> <span ng-bind=tempHigh>
             </span>&deg;</span>
-            <span id="temp-lo"><i class="icon ion-arrow-down-c"></i> <span ng-bind=halfday.channel.item.temperature._low>
+            <span id="temp-lo"><i class="icon ion-arrow-down-c"></i> <span ng-bind=tempLow>
             </span>&deg;</span>
         </h4>
         <h2 class="current-temp"><span ng-bind='' ></span>
-          {{(halfday.channel.item.temperature._high*1 + halfday.channel.item.temperature._low*1)/2}}&deg;</h2>
+          {{(tempHigh*1 + tempLow*1)/2}}&deg;</h2>
 
         <h5> Humidity:
-          {{halfday.channel.item.relativeHumidity._low}}% ~ {{halfday.channel.item.relativeHumidity._high}}%
+          {{humidityLow}}% ~ {{humidityHigh}}%
         </h5>
         <h5> PSI:
           {{psi.channel.item.region[1].record.reading[0]._value}}
@@ -50,12 +55,12 @@
 
         <h4 class="title">Forecast</h4>
         <div class="row" ng-repeat="i in [0,1,2]">
-          <div class="col"><span ng-bind=threeday.channel.item.weatherForecast.day[i]></span></div>
-          <div class="col"><i class={{iconSet[threeday.channel.item.weatherForecast.icon[i]]}} id="forecast-icon"></i></div>
+          <div class="col"><span ng-bind=threedayDay[i]></span></div>
+          <div class="col"><i class={{iconSet[threedayIcon[i]]}} id="forecast-icon"></i></div>
 
           <div class="col">
-            <span class="temp-high">{{threeday.channel.item.weatherForecast.temperature[i]._high}}&deg;</span>
-            <span class="temp-low">{{threeday.channel.item.weatherForecast.temperature[i]._low}}&deg;</span>
+            <span class="temp-high">{{threedayTemp[i].tempHigh}}&deg;</span>
+            <span class="temp-low">{{threedayTemp[i].tempLow}}&deg;</span>
           </div>
         </div>
 
