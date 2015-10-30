@@ -26,15 +26,9 @@ angular.module('starter.controllers', [])
           "href": "tab.weather",
           "title": "Weather Now"
         }
-
-
       ]
     };
 })
-
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -47,11 +41,6 @@ angular.module('starter.controllers', [])
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
-
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
 
 })
 
@@ -68,8 +57,6 @@ angular.module('starter.controllers', [])
     //alert($scope.tempUnit);
     $scope.toggle1 = Settings.v;
     $scope.metrics.celsius = true;
-
-
   }
 
   //Celsius - Fahrenheit toggle
@@ -83,8 +70,6 @@ angular.module('starter.controllers', [])
       $scope.tempUnit = false;
     }
   }
-
-
 //$scope.settings = {
     //  notifications:false
     // };
@@ -94,8 +79,7 @@ angular.module('starter.controllers', [])
       for (var i = 0; i<45; i++) {
         $scope.areaname;
       }}*/
-})
-
+  })
   .controller('PopOver', function($scope, $ionicPopover) {
     var myPopup;
 
@@ -120,7 +104,6 @@ angular.module('starter.controllers', [])
       $scope.data[$scope.index].selected = selectedItem;
     };
   })
-
 
   .controller('WeatherCtrl', function($scope,WeatherService) {
 
@@ -223,16 +206,7 @@ angular.module('starter.controllers', [])
           psi3hr:psi[i].record.reading[1]._value
         });
       }
-      //Calculate Average Psi (3hrs)
-
-      var temp=0;
-      for(var i=0;i<(psiData.length-1);i++){
-        // if(psiData[i].i != 1){
-        temp=temp+psiData[i].psi3hr;
-        // }
-
-      }$scope.avgpsi3hrs = temp;
-      $scope.s = psiData[0].psi3hr;
+      
     });//end of psi service
 
     WeatherService.getRain().then(function(response){$scope.rain = response});
@@ -268,47 +242,25 @@ angular.module('starter.controllers', [])
     }
 
     $scope.onchange=function(){
-        switch($scope.input.location){
-        case "North":
-              $scope.aa='N';
-              break;
-        case "South":
-              $scope.aa='S';
-              break;
-        case "East":
-              $scope.aa='E';
-              break;
-        case  "West":
-              $scope.aa='W';
-              break;
-        case "Central":
-              $scope.aa='C';
-              break;
-        default:
-            $scope.aa='N';
-            break;
+      switch($scope.input.location){
+        case "North":$scope.aa='N';break;
+        case "South":$scope.aa='S';break;
+        case "East":$scope.aa='E';break;
+        case "West":$scope.aa='W';break;
+        case "Central":$scope.aa='C';break;
+        default:$scope.aa='N';break;
       }
       for(var i=0; i < nowcastData.length; i++){
-          if(nowcastData[i].zone === $scope.aa){
-              
+          if(nowcastData[i].zone === $scope.aa){  
               $scope.f = nowcastData[i].forecast;
               break;
           }
-     
-
+        }    
     }
-
-        
-        }
   }); //end of nowcast service
 
     
     $scope.input.rating =  function() {
-
-
-
-
-
       var location = [{
         location: 'West', region: 4 , areaNumber: 7
       }, {
@@ -325,11 +277,8 @@ angular.module('starter.controllers', [])
 
       var rating = ratingService.getRating($scope.f);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
-
-
-       //Only when the forecast is haze, the rating will be affected based on 3h psi
+      //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
-
       //forecast = $scope.aa (need to change back to this)
       if ($scope.aa == "HZ") {
         if (intensitylvl == 1) {
@@ -340,8 +289,6 @@ angular.module('starter.controllers', [])
           rating = rating - ((psi - 100) / 2);
         }
       }
-      
-
       // Do not want any decimal value
       rating = rating.toFixed(0);
 
