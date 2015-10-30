@@ -79,11 +79,11 @@ angular.module('starter.services', [])
       $http.get(url)
         .then(function(response){
           result = x2js.xml_str2json(response.data);
-          return result;
         },function(response){
           console.log(url);
-          return x2js.xml_str2json(fallback);
+          result = x2js.xml_str2json(fallback);
         })
+      console.log(result);
       return result
     }
 
@@ -93,7 +93,6 @@ angular.module('starter.services', [])
       halfday : obtainInfo(halfdayapi,halfdayFallBack,x2js),
       threeday :obtainInfo(threedayapi,threedayFallBack,x2js),
       psi :obtainInfo(psiapi,psiFallBack,x2js),
-      rain : obtainInfo(rainapi,rainFallBack,x2js),
 
       getNowcast:function(){
         //nowcastapi = "http://localhost:8100/?restart=573323#/tab/about";
