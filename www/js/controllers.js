@@ -199,7 +199,7 @@ angular.module('starter.controllers', [])
           psi3hr:psi[i].record.reading[1]._value
         });
       }
-      
+      $scope.psiValue = psiData[0].psi3hr;
     });//end of psi service
 
     WeatherService.getRain().then(function(response){$scope.rain = response});
