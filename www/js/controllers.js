@@ -26,15 +26,12 @@ angular.module('starter.controllers', [])
           "href": "tab.weather",
           "title": "Weather Now"
         }
-
-
       ]
     };
 })
 
-.controller('DashCtrl', function($scope) {})
+.controller('AboutCtrl', function($scope){})
 
-.controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -42,18 +39,6 @@ angular.module('starter.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-
-})
 
 .controller('SettingsCtrl', function($scope) {
    $scope.fahrenheit = 30;
@@ -65,18 +50,12 @@ angular.module('starter.controllers', [])
       notifications:false
     };
 
-
-
     if ($scope.metrics.celsius == true) {
       $scope.fahrenheit  *= 33.8;
-      
       }
-
-    
-
   })
 
-  .controller('PopOver', function($scope, $ionicPopover) {
+  .controller('PopOver', function($scope, $ionicPopover){
     var myPopup;
 
     $scope.data = [{
@@ -89,23 +68,22 @@ angular.module('starter.controllers', [])
       $scope.popover = popover;
     });
 
-    $scope.showPopover = function($event, index)
-    {
+    $scope.showPopover = function($event, index){
       $scope.index = index;
       $scope.popover.show($event);
     }
 
-    $scope.closeInController = function(selectedItem) {
+    $scope.closeInController = function(selectedItem){
       $scope.popover.hide();
       $scope.data[$scope.index].selected = selectedItem;
     };
   })
 
-
-.controller('WeatherCtrl', function($scope,WeatherService,$ionicSlideBoxDelegate) {
+.controller('WeatherCtrl', function($scope,WeatherService) {
 
   $scope.aaa= 'ion-ios-partlysunny-outline';
-    $scope.iconSet = {'PC': 'ion-ios-partlysunny-outline',
+    $scope.iconSet = {
+      'PC': 'ion-ios-partlysunny-outline',
       'WD': 'ion-ios-load-b',
       'CD': 'ion-ios-cloudy-outline',
       'HA': 'ion-ios-cloudy',
@@ -116,65 +94,105 @@ angular.module('starter.controllers', [])
       'FD': 'ion-ios-sunny-outline',
       'FN': 'ion-ios-moon-outline'};
 
-  $scope.weather = WeatherService;
-
-
+  //Include WeatherService before using the following function
+  //Service to get data from nowcast
   WeatherService.getNowcast().then(function(response){
-    $scope.nowcast = response;
+    var nowcastData = [];
+    $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
+    $scope.l=nowcastData; //for testing purpose
 
-    var areaList=[];
-
-    $scope.areaList = $scope.nowcast.channel.item.weatherForecast.area;
-
-    for(var i=0; i < $scope.areaList.length; i++){
-      areaList.push({
-        area:$scope.areaList[i]._name,
-        forecast:$scope.areaList[i]._forecast,
-        zone:$scope.areaList[i]._zone
+    //store data from response into nowcastData
+    for(var i=0; i < $scope.nowcast.length; i++){
+      nowcastData.push({
+        area:$scope.nowcast[i]._name,
+        forecast:$scope.nowcast[i]._forecast,
+        zone:$scope.nowcast[i]._zone
       });
     }
-    $scope.areaname = areaList;
+    
+    var n ="KALLANG";   //data testing
+//    var f = function(nowcastData,key,n){
+        for(var i=0; i < nowcastData.length; i++){
+          if(nowcastData[i].area === n){
+              $scope.a = nowcastData[i].area;
+              $scope.f = nowcastData[i].forecast;
+              $scope.z = nowcastData[i].zone;
+              $scope.i = i;   //variable to store index no.
+          }
+        }
+ //   }
+  }); //end of nowcast service
 
-  });
-  WeatherService.getHalfday().then(function(response){$scope.halfday = response;});
-  WeatherService.getPsi().then(function(response){$scope.psi = response});
-  WeatherService.getThreeday().then(function(response){$scope.threeday = response});
+  WeatherService.getHalfday().then(function(response){
+
+    var halfday  = response.channel.item;
+
+    $scope.wxmain    = halfday.wxmain;
+    $scope.wxeast    = halfday.wxeast;
+    $scope.wxwest    = halfday.wxwest;
+    $scope.wxnorth   = halfday.wxnorth;
+    $scope.wxsouth   = halfday.wxsouth;
+    $scope.wxcentral = halfday.wxcentral;
+
+    $scope.halfdayForecast = halfday.forecast;
+    $scope.tempHigh = halfday.temperature._high;
+    $scope.tempLow  = halfday.temperature._low;
+
+    $scope.humidityHigh = halfday.relativeHumidity._high;
+    $scope.humidityLow  = halfday.relativeHumidity._low;
+  });//end of 12hrs forecast service
+
+  WeatherService.getThreeday().then(function(response){
+    var threeday = response.channel.item.weatherForecast;
+    
+    $scope.threedayDay   = threeday.day;
+    $scope.threedayIcon  = threeday.icon;
+
+    $scope.threedayTemp = [];
+    var threedayTemp    = threeday.temperature;
+    for(var i=0; i < threedayTemp.length; i++){
+      $scope.threedayTemp.push({
+        tempHigh:threedayTemp[i]._high,
+        tempLow:threedayTemp[i]._low
+      });
+    }
+
+    $scope.threedayForecast = [];
+    var threedayForecast    = threeday.forecast;
+    for(var i=0; i < threedayForecast.length; i++){
+      $scope.threedayForecast.push({
+        forecast:threedayForecast[i],
+      });
+    }
+  });//end of 3 days forecast service
+
+  WeatherService.getPsi().then(function(response){
+    var psi = response.channel.item.region;
+
+    var psiData = [];
+
+    for(var i=0;i<psi.length;i++){
+      psiData.push({
+        i:i,
+        regionId:psi[i].id,
+        psi24:psi[i].record.reading[0]._value,
+        psi3hr:psi[i].record.reading[1]._value
+      });
+    }
+    //Calculate Average Psi (3hrs)
+    
+      var temp=0;
+      for(var i=0;i<(psiData.length-1);i++){
+       // if(psiData[i].i != 1){
+        temp=temp+psiData[i].psi3hr;
+     // }
+      
+    }$scope.avgpsi3hrs = temp;
+    $scope.s = psiData[0].psi3hr;
+  });//end of psi service
+  
   WeatherService.getRain().then(function(response){$scope.rain = response});
 
-
-
-  $scope.next = function() {
-    $ionicSlideBoxDelegate.next();
-  };
-  $scope.previous = function() {
-    $ionicSlideBoxDelegate.previous();
-  };
-
-  // Called each time the slide changes
-  $scope.slideChanged = function(index) {
-    $scope.slideIndex = index;
-  };
-
-  $scope.navSlide= function(index) {
-    $ionicSlideBoxDelegate.slide(index,500);
-  };
-
-
-})
-
-.controller('PlanCtrl', function($scope) {})
-
-.controller('HistoryViewCtrl', function($scope, $rootScope) {
-  $scope.clearViewHistory = function() {
-    console.log('clearViewHistory');
-      $rootScope.$viewHistory = {
-      histories: { root: { historyId: 'root', parentHistoryId: null, stack: [], cursor: -1 } },
-      backView: null,
-      forwardView: null,
-      currentView: null,
-      disabledRegistrableTagNames: []
-    };
-  }
 })
 
 .controller('PlanCtrl', function($scope, $state, sharedData){

@@ -1,54 +1,5 @@
 angular.module('starter.services', [])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-})
-
 .factory('WeatherService', function ($http) {
     var key ="781CF461BB6606ADE5BD65643F1781749D6C06D0F1B48FF5";
 
@@ -74,6 +25,10 @@ angular.module('starter.services', [])
 
     var x2js = new X2JS();
 
+    var hd = $http.get(halfdayapi)
+              .then(function(response){
+                  return x2js.xml_str2json(response.data);
+              });
     obtainInfo = function (url,fallback,x2js){
       var result;
       $http.get(url)
@@ -94,6 +49,21 @@ angular.module('starter.services', [])
       threeday :obtainInfo(threedayapi,threedayFallBack,x2js),
       psi :obtainInfo(psiapi,psiFallBack,x2js),
       rain : obtainInfo(rainapi,rainFallBack,x2js),
+
+      all:function(){
+          return hd;
+      },
+
+      get:function(response,item){
+          return hd.then(function(response){
+            for(var i=0; i < response.length; i++){
+              if(response[i].id === item){
+                  return response[i];
+              }
+            }
+          });
+      },
+
 
       getNowcast:function(){
         //nowcastapi = "http://localhost:8100/?restart=573323#/tab/about";
@@ -148,27 +118,20 @@ angular.module('starter.services', [])
               return x2js.xml_str2json(rainFallBack);
             })
       }
-
     }
-  });
+  })
 
-
-angular.module('starter.services')
-  .factory('Location',function(){
-
+.factory('Location',function(){
     var ShortLocation = 'North';
     var LongLocation = 'QUEENSTOWN';
     return{
       ShortLocation : ShortLocation,
       LongLocation : LongLocation
     }
-  });
+  })
 
-angular.module('starter.services')
-  .factory ( 'Settings',
-  function () {
+.factory ( 'Settings',function () {
     var Celsius = true;
-
     return {
       setDisplay: function (value) {
         Celsius = value;
@@ -177,10 +140,9 @@ angular.module('starter.services')
         return Celsius;
       }
     }
-  });
+  })
 
-angular.module("starter.services")
-  .factory('sharedData', function() {
+.factory('sharedData', function() {
     return {
       input: {
         activity: '',
