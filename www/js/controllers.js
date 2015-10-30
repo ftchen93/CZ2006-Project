@@ -32,9 +32,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -43,46 +41,33 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+  .controller('SettingsCtrl', function($scope, $window) {
+    $scope.temperature = 30;
+    $scope.tempUnit = false;
 
-})
+    //Local Storage
+    $scope.saveData = function(v) {
+      $window.localStorage["temperatureUnit"] = v;
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-
-})
-
-.controller('SettingsCtrl', function($scope, $window) {
-  $scope.temperature = 30;
-  $scope.tempUnit = false;
-
-  //Local Storage
-  $scope.saveData = function(v) {
-    $window.localStorage["temperatureUnit"] = v;
-
-  }
-
-  $scope.loadData = function() {
-    $scope.tempUnit = $window.localStorage["temperatureUnit"];
-    alert($scope.tempUnit);
-    //$scope.metrics.celsius = true;
-  }
-
-  //Celsius - Fahrenheit toggle
-  $scope.toggleChange = function() {
-    if ($scope.metrics.celsius == true) {
-      $scope.temperature = $scope.temperature * 1.8 + 32;
-      $scope.tempUnit = true;
     }
-    else {
-      $scope.temperature = 30;
-      $scope.tempUnit = false;
-    }
-  }
 
+    $scope.loadData = function() {
+      $scope.tempUnit = $window.localStorage["temperatureUnit"];
+      alert($scope.tempUnit);
+      //$scope.metrics.celsius = true;
+    }
+
+    //Celsius - Fahrenheit toggle
+    $scope.toggleChange = function() {
+      if ($scope.metrics.celsius == true) {
+        $scope.temperature = $scope.temperature * 1.8 + 32;
+        $scope.tempUnit = true;
+      }
+      else {
+        $scope.temperature = 30;
+        $scope.tempUnit = false;
+      }
+    }
 
 //$scope.settings = {
     //  notifications:false
@@ -222,16 +207,7 @@ angular.module('starter.controllers', [])
           psi3hr:psi[i].record.reading[1]._value
         });
       }
-      //Calculate Average Psi (3hrs)
-
-      var temp=0;
-      for(var i=0;i<(psiData.length-1);i++){
-        // if(psiData[i].i != 1){
-        temp=temp+psiData[i].psi3hr;
-        // }
-
-      }$scope.avgpsi3hrs = temp;
-      $scope.s = psiData[0].psi3hr;
+      $scope.psiValue = psiData[0].psi3hr;
     });//end of psi service
 
     WeatherService.getRain().then(function(response){$scope.rain = response});
@@ -252,8 +228,40 @@ angular.module('starter.controllers', [])
     $scope.input.location = "";
     $scope.input.time = "";
 
-    $scope.input.rating =  function() {
+    WeatherService.getNowcast().then(function(response){
+      var nowcastData = [];
+      $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
+      $scope.l=nowcastData; //for testing purpose
 
+      //store data from response into nowcastData
+      for(var i=0; i < $scope.nowcast.length; i++){
+        nowcastData.push({
+          area:$scope.nowcast[i]._name,
+          forecast:$scope.nowcast[i]._forecast,
+          zone:$scope.nowcast[i]._zone
+        });
+      }
+
+      $scope.onchange=function(){
+        switch($scope.input.location){
+          case "North":$scope.aa='N';break;
+          case "South":$scope.aa='S';break;
+          case "East":$scope.aa='E';break;
+          case "West":$scope.aa='W';break;
+          case "Central":$scope.aa='C';break;
+          default:$scope.aa='N';break;
+        }
+        for(var i=0; i < nowcastData.length; i++){
+          if(nowcastData[i].zone === $scope.aa){
+            $scope.f = nowcastData[i].forecast;
+            break;
+          }
+        }
+      }
+    }); //end of nowcast service
+
+
+    $scope.input.rating =  function() {
       var location = [{
         location: 'West', region: 4 , areaNumber: 7
       }, {
@@ -266,15 +274,14 @@ angular.module('starter.controllers', [])
         location: 'Central', region: 2 ,areaNumber: 0
       }];
 
-      var forecast = "HZ";
       var psi = "250";
 
-      var rating = ratingService.getRating(forecast);
+      var rating = ratingService.getRating($scope.f);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
-
       //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
-      if (forecast == "HZ") {
+      //forecast = $scope.aa (need to change back to this)
+      if ($scope.aa == "HZ") {
         if (intensitylvl == 1) {
           rating = rating - ((psi - 100) / 5);
         } else if (intensitylvl == 2) {
@@ -283,7 +290,6 @@ angular.module('starter.controllers', [])
           rating = rating - ((psi - 100) / 2);
         }
       }
-
       // Do not want any decimal value
       rating = rating.toFixed(0);
 
@@ -299,4 +305,5 @@ angular.module('starter.controllers', [])
   .controller('ViewCtrl', function ($scope, sharedData){
     $scope.input = sharedData.input;
   });
+
 
