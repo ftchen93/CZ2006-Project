@@ -41,43 +41,20 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  .controller('SettingsCtrl', function($scope, $window) {
-    $scope.temperature = 30;
-    $scope.tempUnit = false;
+  .controller('SettingsCtrl', function($scope, $localStorage,Settings) {
+
+
+    //setTimeout(function(){
+      $scope.metricsCelsius = Settings.Celsius;
+
+    //}, 1000);
 
     //Local Storage
-    $scope.saveData = function(v) {
-      $window.localStorage["temperatureUnit"] = v;
-
+    $scope.saveData = function(value) {
+      $localStorage.set('tmpUnit', value);
+      console.log(value);
+      console.log($localStorage.get('tmpUnit',1));
     }
-
-    $scope.loadData = function() {
-      $scope.tempUnit = $window.localStorage["temperatureUnit"];
-      alert($scope.tempUnit);
-      //$scope.metrics.celsius = true;
-    }
-
-    //Celsius - Fahrenheit toggle
-    $scope.toggleChange = function() {
-      if ($scope.metrics.celsius == true) {
-        $scope.temperature = $scope.temperature * 1.8 + 32;
-        $scope.tempUnit = true;
-      }
-      else {
-        $scope.temperature = 30;
-        $scope.tempUnit = false;
-      }
-    }
-
-//$scope.settings = {
-    //  notifications:false
-    // };
-
-    /*
-    $scope.locations = function() {
-      for (var i = 0; i<45; i++) {
-        $scope.areaname;
-      }}*/
 })
 
   .controller('PopOver', function($scope, $ionicPopover) {

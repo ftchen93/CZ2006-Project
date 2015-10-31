@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','xml'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','xml','ionic.utils'])
 
   .run(function($ionicPlatform, $rootScope) {
     $ionicPlatform.ready(function() {
@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','x
         abstract: true,
         templateUrl: 'templates/tabs.html'
       })
-      
+
       // Each tab has its own nav history stack:
       .state('tab.about', {
         url: '/about',

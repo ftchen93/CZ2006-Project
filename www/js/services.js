@@ -129,14 +129,14 @@ angular.module('starter.services', [])
     }
   })
 
-  .factory ( 'Settings',function () {
-  var Celsius = true;
+  .factory ( 'Settings',function ($localStorage) {
+  var Celsius = $localStorage.get('tmpUnit',1);
+  var locationIndex = $localStorage.get('locIndex',0);
   return {
-    setDisplay: function (value) {
-      Celsius = value;
-    },
-    getDisplay: function () {
-      return Celsius;
+    Celsius :Celsius,
+    locationIndex : locationIndex,
+    convert : function (temp){
+      return Celsius ? temp : temp*1.8 + 32;
     }
   }
 })
