@@ -18,13 +18,13 @@
         <!-- Location -->
         <h5 class="title">
               <span class="city"><i id="city-nav-icon" class="icon ion-navigate"></i>
-                 {{nowcast[9]._name}}
+                 {{nowcast[index()]._name}}
               </span><br>
         </h5>
         <br>
         <h4>
-          <i class={{iconSet[nowcast.channel.item.weatherForecast.area[9]._icon]}} id="current-icon"></i>
-          {{nowcast[9]._forecast}}
+          <i class={{iconSet[nowcast.channel.item.weatherForecast.area[index()]._icon]}} id="current-icon"></i>
+          {{nowcast[index()]._forecast}}
         </h4>
         <h4>
             <span id="temp-hi"><i class="icon ion-arrow-up-c"></i> <span ng-bind=tempHigh>
@@ -39,7 +39,7 @@
           {{humidityLow}}% ~ {{humidityHigh}}%
         </h5>
         <h5> PSI:
-          {{psiValue}}
+          {{psi[psiIndex()].record.reading[0]._value}}
         </h5>
       </div>
       <br><br><br><br><br><br><br>

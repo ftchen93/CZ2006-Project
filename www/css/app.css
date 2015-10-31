@@ -94,12 +94,12 @@ h1,h2,h3,h4,h5 {
 
 .temp-high {
   display: inline-block;
-  width: 30px;
+  width: 35px;
   text-align: right;
 }
 .temp-low {
   display: inline-block;
-  width: 30px;
+  width: 35px;
   text-align: right;
   color: #4a87ee;
 }

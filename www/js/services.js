@@ -38,7 +38,7 @@ angular.module('starter.services', [])
           console.log(url);
           result = x2js.xml_str2json(fallback);
         })
-      console.log(result);
+      //console.log(result);
       return result
     }
 
@@ -132,11 +132,24 @@ angular.module('starter.services', [])
   .factory ( 'Settings',function ($localStorage) {
   var Celsius = $localStorage.get('tmpUnit',1);
   var locationIndex = $localStorage.get('locIndex',0);
+  var psizoneList = {'N':0, 'C':2,"E" :3,"W":4, 'S':5},psizoneIndex= $localStorage.get('zoneIndex',2);
+
   return {
     Celsius :Celsius,
     locationIndex : locationIndex,
+    getIndex : function (){return locationIndex},
+    getpsizoneIndex : function() {return psizoneIndex},
+    setpsizone : function (zoneChar){
+      psizoneIndex = psizoneList[zoneChar];
+      $localStorage.set('zoneIndex',psizoneList[zoneChar]);
+    },
+    setlocationIndex : function (index){
+      locationIndex = index;
+      $localStorage.set('locIndex',index);
+      console.log(locationIndex);
+    },
     convert : function (temp){
-      return Celsius ? temp : temp*1.8 + 32;
+      return $localStorage.get('tmpUnit',1)==1 ? temp : (temp*1.8 + 32).toFixed(1);
     }
   }
 })

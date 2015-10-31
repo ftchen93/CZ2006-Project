@@ -1,0 +1,11 @@
+<ion-popover-view style="width: 330px">
+  <ion-content>
+    <div class="list">
+      <div>
+          <ion-radio class="item-content" ng-model="aera" ng-repeat="i in areas" ng-value="$index"  ng-click="setLocation($index,i._zone,i._name)">
+            {{i._name}}
+          </ion-radio>
+    </div>
+    </div>
+  </ion-content>
+</ion-popover-view>

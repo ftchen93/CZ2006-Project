@@ -60,7 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','x
         views: {
           'tab-about': {
             templateUrl: 'templates/tab-about.html',
-            controller: 'AboutCtrl'
+            //controller: 'AboutCtrl'
           }
         }
       })

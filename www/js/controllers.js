@@ -41,51 +41,12 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  .controller('SettingsCtrl', function($scope, $localStorage,Settings) {
 
+  .controller('WeatherCtrl', function($scope,WeatherService,Settings) {
 
-    //setTimeout(function(){
-      $scope.metricsCelsius = Settings.Celsius;
-
-    //}, 1000);
-
-    //Local Storage
-    $scope.saveData = function(value) {
-      $localStorage.set('tmpUnit', value);
-      console.log(value);
-      console.log($localStorage.get('tmpUnit',1));
-    }
-})
-
-  .controller('PopOver', function($scope, $ionicPopover) {
-    var myPopup;
-
-    $scope.data = [{
-      name: 'Specify your location',
-    }];
-
-    $ionicPopover.fromTemplateUrl('popover.html', {
-      scope: $scope,
-    }).then(function(popover) {
-      $scope.popover = popover;
-    });
-
-    $scope.showPopover = function($event, index)
-    {
-      $scope.index = index;
-      $scope.popover.show($event);
-    }
-
-    $scope.closeInController = function(selectedItem) {
-      $scope.popover.hide();
-      $scope.data[$scope.index].selected = selectedItem;
-    };
-  })
-
-
-  .controller('WeatherCtrl', function($scope,WeatherService) {
-
-    $scope.aaa= 'ion-ios-partlysunny-outline';
+    $scope.convert= Settings.convert;
+    $scope.index = Settings.getIndex;
+    $scope.psiIndex = Settings.getpsizoneIndex;
     $scope.iconSet = {
       'PC': 'ion-ios-partlysunny-outline',
       'WD': 'ion-ios-load-b',
@@ -139,8 +100,8 @@ angular.module('starter.controllers', [])
       $scope.wxcentral = halfday.wxcentral;
 
       $scope.halfdayForecast = halfday.forecast;
-      $scope.tempHigh = halfday.temperature._high;
-      $scope.tempLow  = halfday.temperature._low;
+      $scope.tempHigh = Settings.convert(halfday.temperature._high);
+      $scope.tempLow  = Settings.convert(halfday.temperature._low);
 
       $scope.humidityHigh = halfday.relativeHumidity._high;
       $scope.humidityLow  = halfday.relativeHumidity._low;
@@ -156,8 +117,8 @@ angular.module('starter.controllers', [])
       var threedayTemp    = threeday.temperature;
       for(var i=0; i < threedayTemp.length; i++){
         $scope.threedayTemp.push({
-          tempHigh:threedayTemp[i]._high,
-          tempLow:threedayTemp[i]._low
+          tempHigh:Settings.convert(threedayTemp[i]._high),
+          tempLow:Settings.convert(threedayTemp[i]._low)
         });
       }
 
@@ -172,19 +133,7 @@ angular.module('starter.controllers', [])
 
 
     WeatherService.getPsi().then(function(response){
-      var psi = response.channel.item.region;
-
-      var psiData = [];
-
-      for(var i=0;i<psi.length;i++){
-        psiData.push({
-          i:i,
-          regionId:psi[i].id,
-          psi24:psi[i].record.reading[0]._value,
-          psi3hr:psi[i].record.reading[1]._value
-        });
-      }
-      $scope.psiValue = psiData[0].psi3hr;
+      $scope.psi = response.channel.item.region;
     });//end of psi service
 
     WeatherService.getRain().then(function(response){$scope.rain = response});
