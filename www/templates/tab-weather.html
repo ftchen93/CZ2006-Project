@@ -33,7 +33,7 @@
             </span>&deg;</span>
         </h4>
         <h2 class="current-temp"><span ng-bind='' ></span>
-          {{(tempHigh*1 + tempLow*1)/2}}&deg;</h2>
+          {{((tempHigh*1 + tempLow*1)/2).toFixed(1)}}&deg;</h2>
 
         <h5> Humidity:
           {{humidityLow}}% ~ {{humidityHigh}}%
