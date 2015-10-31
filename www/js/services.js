@@ -173,7 +173,7 @@ angular.module("starter.services")
     }, {
       abb: 'FN', Weather: 'Fair Night', Rating: 100
     }, {
-      abb: 'PC', Weather: 'Partly Cloudy', Rating: 90
+      abb: 'PC', Weather: 'Partly cloudy', Rating: 90
     }, {
       abb: 'CD', Weather: 'Cloudy', Rating: 80
     }, {
@@ -183,19 +183,19 @@ angular.module("starter.services")
     }, {
       abb: 'PS', Weather: 'Passing Shower', Rating: 40
     }, {
-      abb: 'SH', Weather: 'Shower', Rating: 25
+      abb: 'SH', Weather: 'Showers', Rating: 25
     }, {
       abb: 'TS', Weather: 'Thundery Storms', Rating: 10
     }];
 
     return {
       getRating: function(forecast) {
-        for(i=0; i<initialRating.length; i++){
-          if(initialRating[i].abb == forecast){
-            return initialRating[i].Rating;
+        for(var j = 0; j<initialRating; j++){
+          if(initialRating[j].Weather == forecast){
+            return initialRating[j].Rating;
           }
         }
-        return 0;
+        return forecast;
       }
     };
   });
@@ -214,7 +214,7 @@ angular.module("starter.services")
 
     return{
       getIntensitylvl: function(activity){
-        for(i=0; i<activitylist.length; i++){
+        for(var i=0; i<activitylist.length; i++){
           if(activitylist[i].name == activity){
             return activitylist[i].intensity;
           }
@@ -238,4 +238,4 @@ angular.module('starter.services')
       $scope.zoneIndex = 3;
     else if ($scope.zoneCode == "C")
       $scope.zoneIndex = 4;
-  })
+  });

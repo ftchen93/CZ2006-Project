@@ -154,7 +154,10 @@ angular.module('starter.controllers', [])
     $scope.input.location = "";
     $scope.input.time = "";
 
+    var forecast;
+
     WeatherService.getNowcast().then(function(response){
+
       var nowcastData = [];
       $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
       $scope.l=nowcastData; //for testing purpose
@@ -170,46 +173,35 @@ angular.module('starter.controllers', [])
 
       $scope.onchange=function(){
         switch($scope.input.location){
-          case "North":$scope.aa='N';break;
-          case "South":$scope.aa='S';break;
-          case "East":$scope.aa='E';break;
-          case "West":$scope.aa='W';break;
-          case "Central":$scope.aa='C';break;
-          default:$scope.aa='N';break;
+          case "North":$scope.location='N';break;
+          case "South":$scope.location='S';break;
+          case "East":$scope.location='E';break;
+          case "West":$scope.location='W';break;
+          case "Central":$scope.location='C';break;
+          default:$scope.location='N';break;
         }
+
         for(var i=0; i < nowcastData.length; i++){
-          if(nowcastData[i].zone === $scope.aa){
-            $scope.f = nowcastData[i].forecast;
+          if(nowcastData[i].zone == $scope.location){
+            forecast = nowcastData[i].forecast;
             break;
           }
         }
+        $scope.rating = ratingService.getRating(forecast);
       }
     }); //end of nowcast service
-
-
     $scope.input.rating =  function() {
-      var location = [{
-        location: 'West', region: 4 , areaNumber: 7
-      }, {
-        location: 'East', region: 3 , areaNumber: 1
-      },{
-        location: 'North', region: 0 , areaNumber: 9
-      },{
-        location: 'South', region: 5 , areaNumber: 17
-      },{
-        location: 'Central', region: 2 ,areaNumber: 0
-      }];
 
       var psi = "250";
-
-      var rating = ratingService.getRating($scope.f);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
+
       //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
+
       //forecast = $scope.aa (need to change back to this)
-      if ($scope.aa == "HZ") {
+      if ($scope.forecast === "Haze") {
         if (intensitylvl == 1) {
-          rating = rating - ((psi - 100) / 5);
+          rating = rating - ((psi - 100) / 6);
         } else if (intensitylvl == 2) {
           rating = rating - ((psi - 100) / 4);
         } else if (intensitylvl == 3) {
