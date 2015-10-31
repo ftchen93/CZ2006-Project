@@ -16,7 +16,7 @@ angular.module('starter.controllers')
     Settings.Celsius = value;
     console.log(value);
     console.log($localStorage.get('tmpUnit',1));
-  }
+  };
 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
@@ -41,7 +41,7 @@ angular.module('starter.controllers')
       console.log("exit");
     });
     $ionicPopover.fromTemplateUrl('popover.html', {
-      scope: $scope,
+      scope: $scope
     }).then(function(popover) {
       $scope.popover = popover;
     });
@@ -50,12 +50,13 @@ angular.module('starter.controllers')
     {
       $scope.index = index;
       $scope.popover.show($event);
-    }
+    };
     $scope.setLocation= function(aera,zone,name){
       console.log(aera + ' '+ zone);
       $scope.locName = name;
       Settings.setlocationIndex(aera);
       Settings.setpsizone(zone);
+      $scope.popover.hide();
     };
-  })
+  });
 
