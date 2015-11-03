@@ -244,6 +244,7 @@ angular.module('starter.controllers', [])
       }
       return psi;
     }
+    //find the rating
     $scope.input.rating =  function() {
 
       var psi = $scope.getpsivalue();
