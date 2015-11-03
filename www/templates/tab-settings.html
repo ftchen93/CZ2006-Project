@@ -4,15 +4,15 @@
 
       <div>
         <div class="item item-divider">
-        Metrics
+        Unit
       </div>
 
         <ion-radio ng-model="metricsCelsius" value= 1  ng-click="saveData(1)">
-          Celsius
+          Celsius &degC
         </ion-radio>
 
         <ion-radio ng-model="metricsCelsius" value =2 ng-click = 'saveData(2)'>
-          Fahrenheit
+          Fahrenheit &degF
         </ion-radio>
 
 
@@ -31,7 +31,7 @@
 
       <div class="list item-icon-left list-area" ng-controller="PopOver">
           <a class="item white {{item.selected}}" ng-click="showPopover($event, $index)">
-            Set Location Currently = {{locName}}
+            Current Location : {{locName}}
           </a>
       </div>
 

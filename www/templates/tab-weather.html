@@ -8,9 +8,6 @@
 
   <ion-content class="bg-image">
 
-    <!-- Background -->
-    <background-cycler class="bg-fade"></background-cycler>
-
     <div id="main-content">
 
       <!-- Temperature -->
@@ -23,7 +20,7 @@
         </h5>
         <br>
         <h4>
-          <i class={{iconSet[nowcast.channel.item.weatherForecast.area[index()]._icon]}} id="current-icon"></i>
+          <i class={{iconSet[nowcast[index()]._icon]}} id="current-icon"></i>
           {{nowcast[index()]._forecast}}
         </h4>
         <h4>
