@@ -155,14 +155,23 @@ angular.module('starter.services', [])
 })
 
   .factory('sharedData', function() {
+    var data = {
+      firstName: ''
+    };
     return {
       input: {
         activity: '',
         location: '',
         time : '',
         rating: ''
+      },
+      setFirstName: function(firstName){
+        data.firstName = firstName;
+      },
+      getFirstName: function(){
+        return data.firstName;
       }
-    };
+    }
   });
 
 angular.module("starter.services")
@@ -175,7 +184,7 @@ angular.module("starter.services")
     }, {
       abb: 'PC', Weather: 'Partly cloudy', Rating: 90
     }, {
-      abb: 'CD', Weather: 'Cloudy', Rating: 80
+      abb: 'CD', Weather: 'cloudy', Rating: 80
     }, {
       abb: 'HZ', Weather: 'Haze', Rating: 70
     }, {
@@ -183,21 +192,20 @@ angular.module("starter.services")
     }, {
       abb: 'PS', Weather: 'Passing Shower', Rating: 40
     }, {
-      abb: 'SH', Weather: 'Showers', Rating: 25
+      abb: 'SH', Weather: '"Showers "', Rating: 25
     }, {
       abb: 'TS', Weather: 'Thundery Storms', Rating: 10
     }];
-
     return {
       getRating: function(forecast) {
-        for(var j = 0; j<initialRating; j++){
-          if(initialRating[j].Weather == forecast){
-            return initialRating[j].Rating;
+        for(i=0; i<initialRating.length; i++){
+          if(initialRating[i].abb === forecast){
+            return initialRating[i].Rating;
           }
         }
         return forecast;
       }
-    };
+    }
   });
 
 angular.module("starter.services")

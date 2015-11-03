@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl' , function ($scope){
+  .controller('HomeCtrl' , function ($scope){
     $scope.picture = {
       "artworks": [
         {
@@ -30,7 +30,7 @@ angular.module('starter.controllers', [])
 
       ]
     };
-})
+  })
 
 
   // With the new view caching in Ionic, Controllers are only called
@@ -155,10 +155,12 @@ angular.module('starter.controllers', [])
     $scope.input.time = "";
 
     var forecast;
+    var psi;
+
+    var nowcastData = [];
 
     WeatherService.getNowcast().then(function(response){
 
-      var nowcastData = [];
       $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
       $scope.l=nowcastData; //for testing purpose
 
@@ -167,39 +169,91 @@ angular.module('starter.controllers', [])
         nowcastData.push({
           area:$scope.nowcast[i]._name,
           forecast:$scope.nowcast[i]._forecast,
-          zone:$scope.nowcast[i]._zone
+          zone:$scope.nowcast[i]._zone,
+          icon:$scope.nowcast[i]._icon
         });
       }
 
-      $scope.onchange=function(){
-        switch($scope.input.location){
-          case "North":$scope.location='N';break;
-          case "South":$scope.location='S';break;
-          case "East":$scope.location='E';break;
-          case "West":$scope.location='W';break;
-          case "Central":$scope.location='C';break;
-          default:$scope.location='N';break;
-        }
+    }); //end of nowcast service
 
-        for(var i=0; i < nowcastData.length; i++){
-          if(nowcastData[i].zone == $scope.location){
-            forecast = nowcastData[i].forecast;
+    WeatherService.getHalfday().then(function(response) {
+
+      var halfday = response.channel.item;
+
+      $scope.wxeast = halfday.wxeast;
+      $scope.wxwest = halfday.wxwest;
+      $scope.wxnorth = halfday.wxnorth;
+      $scope.wxsouth = halfday.wxsouth;
+      $scope.wxcentral = halfday.wxcentral;
+
+    });//end of 12hrs forecast service
+
+    $scope.getforecast=function(){
+      if($scope.input.time === "3") {
+        switch ($scope.input.location) {
+          case "North":$scope.location = 'N';break;
+          case "South":$scope.location = 'S';break;
+          case "East":$scope.location = 'E';break;
+          case "West":$scope.location = 'W';break;
+          case "Central":$scope.location = 'C';break;
+        }
+        for (var i = 0; i < nowcastData.length; i++) {
+          if (nowcastData[i].zone === $scope.location) {
+            forecast = nowcastData[i].icon;
             break;
           }
         }
-        $scope.rating = ratingService.getRating(forecast);
+      }else if($scope.input.time === "12"){
+        switch ($scope.input.location) {
+          case "North":forecast = $scope.wxnorth;break;
+          case "South":forecast = $scope.wxsouth;break;
+          case "East":forecast = $scope.wxeast;break;
+          case "West":forecast = $scope.wxwest;break;
+          case "Central":forecast=$scope.wxcentral;break;
+        }
       }
-    }); //end of nowcast service
+      return forecast;
+    }
+
+    WeatherService.getPsi().then(function(response){
+      $scope.northpsi = response.channel.item.region[0];
+      $scope.southpsi = response.channel.item.region[5];
+      $scope.centralpsi = response.channel.item.region[2];
+      $scope.westpsi = response.channel.item.region[4];
+      $scope.eastpsi = response.channel.item.region[3];
+    });//end of psi service
+
+    $scope.getpsivalue=function(){
+      //get 3h psi if input time is 3 else get 24h psi
+      if($scope.input.time === "3") {
+        switch ($scope.input.location) {
+          case "North":psi = $scope.northpsi.record.reading[1]._value;break;
+          case "South":psi = $scope.southpsi.record.reading[1]._value;break;
+          case "East":psi = $scope.centralpsi.record.reading[1]._value;break;
+          case "West":psi = $scope.westpsi.record.reading[1]._value;break;
+          case "Central":psi = $scope.eastpsi.record.reading[1]._value;break;
+        }
+      }else if($scope.input.time === "12"){
+        switch ($scope.input.location) {
+          case "North":psi = $scope.northpsi.record.reading[0]._value;break;
+          case "South":psi = $scope.southpsi.record.reading[0]._value;break;
+          case "East":psi = $scope.centralpsi.record.reading[0]._value;break;
+          case "West":psi = $scope.westpsi.record.reading[0]._value;break;
+          case "Central":psi = $scope.eastpsi.record.reading[0]._value;break;
+        }
+      }
+      return psi;
+    }
     $scope.input.rating =  function() {
 
-      var psi = "250";
+      var psi = $scope.getpsivalue();
+      var forecast = $scope.getforecast();
+      var rating = ratingService.getRating(forecast);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
 
       //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
-
-      //forecast = $scope.aa (need to change back to this)
-      if ($scope.forecast === "Haze") {
+      if (forecast === "HZ" || psi > 100) {
         if (intensitylvl == 1) {
           rating = rating - ((psi - 100) / 6);
         } else if (intensitylvl == 2) {
@@ -208,6 +262,7 @@ angular.module('starter.controllers', [])
           rating = rating - ((psi - 100) / 2);
         }
       }
+
       // Do not want any decimal value
       rating = rating.toFixed(0);
 
@@ -223,5 +278,6 @@ angular.module('starter.controllers', [])
   .controller('ViewCtrl', function ($scope, sharedData){
     $scope.input = sharedData.input;
   });
+
 
 

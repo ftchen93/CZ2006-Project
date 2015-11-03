@@ -16,14 +16,13 @@
           <span class="input-label"><b>Choose an location: </b></span>
         </label>
         <label class="item">
-          <select ng-model="input.location" ng-init="input.location='North'" ng-change="onchange()">
+          <select ng-model="input.location" ng-init="input.location='North'">
             <option value="North">North</option>
             <option value="South">South</option>
             <option value="East">East</option>
             <option value="West">West</option>
             <option value="Central">Central</option>
           </select>
-          {{apiforecast}}, {{copy}}, {{rating}}
         </label>
         <label class="item item-input">
           <span class="input-label"><b>Select a time (next 3 hours or next 12 hours): </b></span>
