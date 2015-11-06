@@ -155,21 +155,12 @@ angular.module('starter.services', [])
 })
 
   .factory('sharedData', function() {
-    var data = {
-      firstName: ''
-    };
     return {
       input: {
         activity: '',
         location: '',
         time : '',
         rating: ''
-      },
-      setFirstName: function(firstName){
-        data.firstName = firstName;
-      },
-      getFirstName: function(){
-        return data.firstName;
       }
     }
   });
@@ -186,13 +177,13 @@ angular.module("starter.services")
     }, {
       abb: 'CD', Weather: 'cloudy', Rating: 80
     }, {
-      abb: 'HZ', Weather: 'Haze', Rating: 70
+      abb: 'HA', Weather: 'Haze', Rating: 70
     }, {
       abb: 'WD', Weather: 'Rain', Rating: 30
     }, {
       abb: 'PS', Weather: 'Passing Shower', Rating: 40
     }, {
-      abb: 'SH', Weather: '"Showers "', Rating: 25
+      abb: 'SH', Weather: 'Showers ', Rating: 25
     }, {
       abb: 'TS', Weather: 'Thundery Storms', Rating: 10
     }];
@@ -232,6 +223,7 @@ angular.module("starter.services")
     }
   });
 
+/*
 angular.module('starter.services')
   .factory('LocationIndex', function(WeatherCtrl){
     $scope.zoneCode = $scope.nowcast.channel.item.weatherForecast.zone;
@@ -247,3 +239,4 @@ angular.module('starter.services')
     else if ($scope.zoneCode == "C")
       $scope.zoneIndex = 4;
   });
+  */

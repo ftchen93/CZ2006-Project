@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
 
   .controller('PlanCtrl', function($scope, $state, sharedData, ratingService, activityService, WeatherService){
 
-    //if validation success, go to tab-view.html
+    //If validation success, go to tab-view.html
     $scope.submitForm = function(isValid) {
       if (isValid) {
         $state.go('tab.view');
@@ -159,6 +159,7 @@ angular.module('starter.controllers', [])
 
     var nowcastData = [];
 
+    //Fletch nowcast data
     WeatherService.getNowcast().then(function(response){
 
       $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
@@ -176,6 +177,7 @@ angular.module('starter.controllers', [])
 
     }); //end of nowcast service
 
+    //Fletch Halfday data
     WeatherService.getHalfday().then(function(response) {
 
       var halfday = response.channel.item;
@@ -187,7 +189,7 @@ angular.module('starter.controllers', [])
       $scope.wxcentral = halfday.wxcentral;
 
     });//end of 12hrs forecast service
-
+    //Get 3hours or 12 hours data based on user input time
     $scope.getforecast=function(){
       if($scope.input.time === "3") {
         switch ($scope.input.location) {
@@ -214,7 +216,7 @@ angular.module('starter.controllers', [])
       }
       return forecast;
     }
-
+    //Fletch psi data
     WeatherService.getPsi().then(function(response){
       $scope.northpsi = response.channel.item.region[0];
       $scope.southpsi = response.channel.item.region[5];
@@ -223,8 +225,8 @@ angular.module('starter.controllers', [])
       $scope.eastpsi = response.channel.item.region[3];
     });//end of psi service
 
+    //get 3h psi if input time is 3 else get 24h psi
     $scope.getpsivalue=function(){
-      //get 3h psi if input time is 3 else get 24h psi
       if($scope.input.time === "3") {
         switch ($scope.input.location) {
           case "North":psi = $scope.northpsi.record.reading[1]._value;break;
@@ -254,7 +256,7 @@ angular.module('starter.controllers', [])
 
       //Only when the forecast is haze, the rating will be affected based on 3h psi
       //and activity intensity
-      if (forecast === "HZ" || psi > 100) {
+      if (forecast === "HA" && psi > 100) {
         if (intensitylvl == 1) {
           rating = rating - ((psi - 100) / 6);
         } else if (intensitylvl == 2) {
@@ -276,8 +278,10 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('ViewCtrl', function ($scope, sharedData){
+  .controller('ViewCtrl', function ($scope,sharedData){
+
     $scope.input = sharedData.input;
+
   });
 
 
