@@ -159,7 +159,7 @@ angular.module('starter.controllers', [])
 
     var nowcastData = [];
 
-    //Fletch nowcast data
+    //Fetch nowcast data
     WeatherService.getNowcast().then(function(response){
 
       $scope.nowcast = response.channel.item.weatherForecast.area; //filter out unwanted info in response
@@ -189,6 +189,7 @@ angular.module('starter.controllers', [])
       $scope.wxcentral = halfday.wxcentral;
 
     });//end of 12hrs forecast service
+
     //Get 3hours or 12 hours data based on user input time
     $scope.getforecast=function(){
       if($scope.input.time === "3") {
@@ -216,7 +217,7 @@ angular.module('starter.controllers', [])
       }
       return forecast;
     }
-    //Fletch psi data
+    //Fetch psi data
     WeatherService.getPsi().then(function(response){
       $scope.northpsi = response.channel.item.region[0];
       $scope.southpsi = response.channel.item.region[5];
@@ -225,7 +226,7 @@ angular.module('starter.controllers', [])
       $scope.eastpsi = response.channel.item.region[3];
     });//end of psi service
 
-    //get 3h psi if input time is 3 else get 24h psi
+    //get 3h psi if input time is 3 hours else get the 24h psi
     $scope.getpsivalue=function(){
       if($scope.input.time === "3") {
         switch ($scope.input.location) {
@@ -246,17 +247,18 @@ angular.module('starter.controllers', [])
       }
       return psi;
     }
-    //find the rating
+    //Compute the rating
     $scope.input.rating =  function() {
 
+      //fetch the variables
       var psi = $scope.getpsivalue();
       var forecast = $scope.getforecast();
       var rating = ratingService.getRating(forecast);
       var intensitylvl = activityService.getIntensitylvl($scope.input.activity);
 
-      //Only when the forecast is haze, the rating will be affected based on 3h psi
+      //Only when the forecast is haze psi > 100 , the rating will be affected based on psi
       //and activity intensity
-      if (forecast === "HA" && psi > 100) {
+      if (forecast === "HA" || psi > 100) {
         if (intensitylvl == 1) {
           rating = rating - ((psi - 100) / 6);
         } else if (intensitylvl == 2) {

@@ -167,7 +167,7 @@ angular.module('starter.services', [])
 
 angular.module("starter.services")
   .factory('ratingService', function() {
-    //All the possible result from forecast
+    //All the possible result from forecast and their initial rating
     var initialRating = [{
       abb: 'FD', Weather: 'Fair Day', Rating: 100
     }, {
@@ -187,6 +187,7 @@ angular.module("starter.services")
     }, {
       abb: 'TS', Weather: 'Thundery Storms', Rating: 10
     }];
+    
     return {
       getRating: function(forecast) {
         for(i=0; i<initialRating.length; i++){
@@ -202,15 +203,19 @@ angular.module("starter.services")
 angular.module("starter.services")
   .factory('activityService', function() {
 
-    //Current only 3 activities is included. case sensitive
+    //Current only 5 activities is included. case sensitive
     var activitylist = [{
       name: 'Run', intensity: 3
     },{
-      name: 'Fast walk', intensity: 2
+      name: 'Swim', intensity: 3
+    },{
+      name: 'Cycle', intensity: 2
+    },{
+      name: 'Jog', intensity: 2
     },{
       name: 'Walk', intensity: 1
     }];
-
+    //return the intensity of the activity whenever the method is called
     return{
       getIntensitylvl: function(activity){
         for(var i=0; i<activitylist.length; i++){
